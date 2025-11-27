@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.kaooappreloaded"
+    namespace "xyz.commanderred.kaooappreloaded"
     defaultConfig {
-        applicationId "com.kaooappreloaded"
+        applicationId "xyz.commanderred.kaooappreloaded"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

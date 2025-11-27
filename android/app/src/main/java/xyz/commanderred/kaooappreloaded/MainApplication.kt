@@ -1,4 +1,4 @@
-package com.kaooappreloaded
+package xyz.commanderred.kaooappreloaded
 
 import android.app.Application
 import com.facebook.react.PackageList

@@ -1,4 +1,4 @@
-package com.kaooappreloaded
+package xyz.commanderred.kaooappreloaded
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
