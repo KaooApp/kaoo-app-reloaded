@@ -1,0 +1,27 @@
+#!/bin/bash
+# This script is ./pre-commit
+# Execute all scripts in ./pre-commit.d in order (0-foo before 10-bar)
+
+# Get the directory of this script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+error=0
+
+echo "Running pre-commit hooks in $DIR/pre-commit.d"
+
+# Run all scripts in ./pre-commit.d
+for script in $DIR/pre-commit.d/*; do
+  if [ -x $script ]; then
+    echo "> Running $script"
+    $script
+    err=$?
+    if [ $err -ne 0 ]; then
+      echo "Error in $script: $err"
+      if [ $error -eq 0 ]; then
+        error=$err
+      fi
+    fi
+    printf "\n"
+  fi
+done
+
+exit $error
