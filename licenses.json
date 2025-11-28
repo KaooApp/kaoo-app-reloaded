@@ -1,4 +1,16 @@
 {
+    "@os-team/i18next-react-native-language-detector@1.1.6": {
+        "licenses": "MIT",
+        "repository": "git@gitlab.com:os-team/libs/utils",
+        "licenseUrl": "git@gitlab.com:os-team/libs/utils",
+        "parents": "kaooappreloaded"
+    },
+    "@pchmn/expo-material3-theme@1.3.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/pchmn/expo-material3-theme",
+        "licenseUrl": "https://github.com/pchmn/expo-material3-theme/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
     "@react-native-vector-icons/material-design-icons@12.4.0": {
         "licenses": "MIT",
         "repository": "https://github.com/oblador/react-native-vector-icons",
@@ -23,10 +35,70 @@
         "licenseUrl": "https://github.com/react-navigation/react-navigation/raw/master/LICENSE",
         "parents": "kaooappreloaded"
     },
+    "@reduxjs/toolkit@2.11.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/reduxjs/redux-toolkit",
+        "licenseUrl": "https://github.com/reduxjs/redux-toolkit/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "@zoontek/react-native-navigation-bar@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/zoontek/react-native-navigation-bar",
+        "licenseUrl": "https://github.com/zoontek/react-native-navigation-bar/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "i18next@25.6.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/i18next/i18next",
+        "licenseUrl": "https://github.com/i18next/i18next/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "intl-pluralrules@2.0.1": {
+        "licenses": "ISC",
+        "repository": "https://github.com/eemeli/intl-pluralrules",
+        "licenseUrl": "https://github.com/eemeli/intl-pluralrules/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "moment@2.30.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/moment/moment",
+        "licenseUrl": "https://github.com/moment/moment/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "react-i18next@16.3.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/i18next/react-i18next",
+        "licenseUrl": "https://github.com/i18next/react-i18next/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
     "react-native-bootsplash@6.3.11": {
         "licenses": "MIT",
         "repository": "https://github.com/zoontek/react-native-bootsplash",
         "licenseUrl": "https://github.com/zoontek/react-native-bootsplash/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "react-native-localize@3.6.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/zoontek/react-native-localize",
+        "licenseUrl": "https://github.com/zoontek/react-native-localize/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "react-native-logs@5.5.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/mowispace/react-native-logs",
+        "licenseUrl": "https://github.com/mowispace/react-native-logs/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "react-native-mmkv@3.3.3": {
+        "licenses": "(MIT AND BSD-3-Clause)",
+        "repository": "https://github.com/mrousavy/react-native-mmkv",
+        "licenseUrl": "https://github.com/mrousavy/react-native-mmkv",
+        "parents": "kaooappreloaded"
+    },
+    "react-native-navigation-bar@0.2.1": {
+        "licenses": "ISC",
+        "repository": "https://github.com/beefe/react-native-navigation-bar",
+        "licenseUrl": "https://github.com/beefe/react-native-navigation-bar",
         "parents": "kaooappreloaded"
     },
     "react-native-paper@5.14.5": {
@@ -47,16 +119,34 @@
         "licenseUrl": "https://github.com/software-mansion/react-native-screens/raw/master/LICENSE",
         "parents": "kaooappreloaded"
     },
+    "react-native-toast-message@2.3.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/calintamas/react-native-toast-message",
+        "licenseUrl": "https://github.com/calintamas/react-native-toast-message/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
     "react-native@0.82.1": {
         "licenses": "MIT",
         "repository": "https://github.com/facebook/react-native",
         "licenseUrl": "https://github.com/facebook/react-native/raw/master/LICENSE",
         "parents": "kaooappreloaded"
     },
+    "react-redux@9.2.0": {
+        "licenses": "MIT",
+        "repository": "github:reduxjs/react-redux",
+        "licenseUrl": "github:reduxjs/react-redux",
+        "parents": "kaooappreloaded"
+    },
     "react@19.1.1": {
         "licenses": "MIT",
         "repository": "https://github.com/facebook/react",
         "licenseUrl": "https://github.com/facebook/react/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "redux-persist@6.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/rt2zz/redux-persist",
+        "licenseUrl": "https://github.com/rt2zz/redux-persist/raw/master/LICENSE",
         "parents": "kaooappreloaded"
     }
 }
