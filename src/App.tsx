@@ -14,11 +14,14 @@ import {
 import {PaperProvider} from 'react-native-paper';
 
 import BootSplash from 'react-native-bootsplash';
+import {useEffect} from 'react';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
-  console.log(BootSplash.isVisible());
+  useEffect(() => {
+    BootSplash.hide({ fade: true });
+  }, []);
 
   return (
     <PaperProvider>
