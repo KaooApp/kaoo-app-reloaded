@@ -5,12 +5,6 @@
         "licenseUrl": "git@gitlab.com:os-team/libs/utils",
         "parents": "kaooappreloaded"
     },
-    "@pchmn/expo-material3-theme@1.3.2": {
-        "licenses": "MIT",
-        "repository": "https://github.com/pchmn/expo-material3-theme",
-        "licenseUrl": "https://github.com/pchmn/expo-material3-theme/raw/master/LICENSE",
-        "parents": "kaooappreloaded"
-    },
     "@react-native-vector-icons/material-design-icons@12.4.0": {
         "licenses": "MIT",
         "repository": "https://github.com/oblador/react-native-vector-icons",
@@ -75,6 +69,18 @@
         "licenses": "MIT",
         "repository": "https://github.com/zoontek/react-native-bootsplash",
         "licenseUrl": "https://github.com/zoontek/react-native-bootsplash/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "react-native-fast-image@8.6.3": {
+        "licenses": "(MIT AND Apache-2.0)",
+        "repository": "https://github.com/DylanVann/react-native-fast-image",
+        "licenseUrl": "https://github.com/DylanVann/react-native-fast-image/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "react-native-flex-layout@0.1.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/yamankatby/react-native-flex-layout",
+        "licenseUrl": "https://github.com/yamankatby/react-native-flex-layout/raw/master/LICENSE",
         "parents": "kaooappreloaded"
     },
     "react-native-localize@3.6.0": {

@@ -1,16 +1,17 @@
-import type { FC } from 'react';
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useColorScheme } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+
 import BootSplash from 'react-native-bootsplash';
 // import Config from 'react-native-config';
-import { Icon, PaperProvider } from 'react-native-paper';
+import { PaperProvider } from 'react-native-paper';
 import Toast, {
     BaseToast,
     ErrorToast,
     InfoToast,
     SuccessToast,
 } from 'react-native-toast-message';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import moment from 'moment';
 
@@ -28,7 +29,6 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import type { SupportedLanguage } from '@/translations';
 
 import RNLanguageDetector from '@os-team/i18next-react-native-language-detector';
-import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import { NavigationContainer } from '@react-navigation/native';
 import { NavigationBar } from '@zoontek/react-native-navigation-bar';
 
@@ -38,13 +38,9 @@ const InnerApp: FC = () => {
     const { i18n } = useTranslation();
     const dispatch = useAppDispatch();
     const colorScheme = useColorScheme();
-    const { theme: m3theme } = useMaterial3Theme();
 
     const colorSchemeSetting = useAppSelector(
         state => state.settings.colorScheme,
-    );
-    const enableDeviceColors = useAppSelector(
-        state => state.settings.enableDeviceColors,
     );
 
     const systemSchemeIsDark = colorScheme === 'dark';
@@ -59,23 +55,10 @@ const InnerApp: FC = () => {
         return colorSchemeSetting === 'dark';
     }, [colorSchemeSetting, systemSchemeIsDark]);
 
-    const theme = useMemo(() => {
-        if (enableDarkMode) {
-            log.debug('enableDarkMode');
-
-            if (enableDeviceColors) {
-                return { ...darkTheme, colors: m3theme.dark };
-            }
-            return darkTheme;
-        }
-
-        log.debug('lightMode');
-
-        if (enableDeviceColors) {
-            return { ...lightTheme, colors: m3theme.light };
-        }
-        return lightTheme;
-    }, [enableDarkMode, enableDeviceColors, m3theme.dark, m3theme.light]);
+    const theme = useMemo(
+        () => (enableDarkMode ? darkTheme : lightTheme),
+        [enableDarkMode],
+    );
 
     const navigationTheme = useMemo(() => {
         if (enableDarkMode) return ReactNavigationDarkTheme;
@@ -111,6 +94,7 @@ const InnerApp: FC = () => {
 
             log.debug('language', tmpLanguage);
 
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setI18nLanguageMatchesSettings(false);
             dispatch(
                 setLanguage({ language: tmpLanguage as SupportedLanguage }),
@@ -125,6 +109,7 @@ const InnerApp: FC = () => {
             return;
         }
 
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setI18nLanguageMatchesSettings(false);
         i18n.changeLanguage(language);
 

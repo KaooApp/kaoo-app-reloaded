@@ -2089,13 +2089,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material/material-color-utilities@npm:^0.2.7":
-  version: 0.2.7
-  resolution: "@material/material-color-utilities@npm:0.2.7"
-  checksum: 445c17646488a0564b21d2949429c871963158a9636f6f2869ace614c35bbabeb6e68a51770ff7752586ecc928274db3e4345a332c94e3fc296e988b0a24d527
-  languageName: node
-  linkType: hard
-
 "@napi-rs/wasm-runtime@npm:^0.2.11":
   version: 0.2.12
   resolution: "@napi-rs/wasm-runtime@npm:0.2.12"
@@ -2180,20 +2173,6 @@ __metadata:
     react-native: "*"
     react-native-localize: ">=3"
   checksum: f30f3c2ae514d826f1880fb97647da4e45af2c8328514147edd736b0a18bd947090b4f13d542daa393e2103588e9b90b1e0c16bf4a993dd02d77e6db2b63a236
-  languageName: node
-  linkType: hard
-
-"@pchmn/expo-material3-theme@npm:^1.3.2":
-  version: 1.3.2
-  resolution: "@pchmn/expo-material3-theme@npm:1.3.2"
-  dependencies:
-    "@material/material-color-utilities": ^0.2.7
-    color: ^4.2.3
-  peerDependencies:
-    expo: "*"
-    react: "*"
-    react-native: "*"
-  checksum: 9d51b625afee1a0914413b4ce75ef6538aeefcdd415ee2fe3301256ae9aee2ba75f338df62c0176424c05bfe4a3f711f8797502ce92816128466a96f141102c4
   languageName: node
   linkType: hard
 
@@ -7981,7 +7960,6 @@ __metadata:
     "@eslint/eslintrc": ^3.3.3
     "@eslint/js": ^9.39.1
     "@os-team/i18next-react-native-language-detector": ^1.1.6
-    "@pchmn/expo-material3-theme": ^1.3.2
     "@react-native-community/cli": 20.0.0
     "@react-native-community/cli-platform-android": 20.0.0
     "@react-native-community/cli-platform-ios": 20.0.0
@@ -8027,6 +8005,8 @@ __metadata:
     react-i18next: ^16.3.5
     react-native: 0.82.1
     react-native-bootsplash: ^6.3.11
+    react-native-fast-image: ^8.6.3
+    react-native-flex-layout: ^0.1.5
     react-native-localize: ^3.6.0
     react-native-logs: ^5.5.0
     react-native-mmkv: ~3.3.3
@@ -9905,6 +9885,26 @@ __metadata:
   bin:
     react-native-bootsplash: cli.js
   checksum: 904adfe00e928d297f32f56c12e9db67418c0f4b3f238b23fb9b300ac3aae74f673d1986d3b273639abac331f27dc412bb4ad4462aba2354ac6f2f790be3334c
+  languageName: node
+  linkType: hard
+
+"react-native-fast-image@npm:^8.6.3":
+  version: 8.6.3
+  resolution: "react-native-fast-image@npm:8.6.3"
+  peerDependencies:
+    react: ^17 || ^18
+    react-native: ">=0.60.0"
+  checksum: 29289cb6b2eae0983c8922b22e2d9de3be07322bb7991c5def19f95eadefaedb0e308ff0b38cc1d0444e8bd4fe94a7621a99a2d3d9298100bcb60b3144677234
+  languageName: node
+  linkType: hard
+
+"react-native-flex-layout@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "react-native-flex-layout@npm:0.1.5"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 82aa1e66bb0f7feacf1419c586a3b35931de27efeebab24127a5e2d5589e41f0d9591c204f2ab354c4e71e6b40420ee20f7e99929a6e65476ed283ac445ad3fd
   languageName: node
   linkType: hard
 

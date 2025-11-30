@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars,no-param-reassign */
-import { Platform } from 'react-native';
-
 import type {
     SetColorSchemeAction,
     SetEnableDeviceColorsAction,
@@ -14,7 +12,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState: SettingsState = {
     colorScheme: AppColorScheme.System,
-    enableDeviceColors: Platform.OS === 'android',
     language: null,
 };
 
@@ -30,21 +27,14 @@ const settingsSlice = createSlice({
         setColorScheme: (state, action: SetColorSchemeAction) => {
             state.colorScheme = action.payload.scheme;
         },
-        setEnableDeviceColors: (state, action: SetEnableDeviceColorsAction) => {
-            state.enableDeviceColors = action.payload.enable;
-        },
         setLanguage: (state, action: SetLanguageAction) => {
             state.language = action.payload.language;
         },
     },
 });
 
-export const {
-    resetSettings,
-    setColorScheme,
-    setEnableDeviceColors,
-    setLanguage,
-} = settingsSlice.actions;
+export const { resetSettings, setColorScheme, setLanguage } =
+    settingsSlice.actions;
 
 export const { reducer: SettingsReducer } = settingsSlice;
 

@@ -9,6 +9,7 @@ import {
 
 import { persistReducer, persistStore } from 'redux-persist';
 
+import { PersistedReducer } from '@/slices/persisted';
 import { SettingsReducer } from '@/slices/settings';
 
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
@@ -37,8 +38,16 @@ const settingsPersistConfig = {
     version: 1,
 };
 
+const persistedStateConfig = {
+    key: 'persistState',
+    storage: reduxStorage,
+    debug: __DEV__,
+    version: 1,
+};
+
 const rootReducer = combineReducers({
     settings: persistReducer(settingsPersistConfig, SettingsReducer),
+    persisted: persistReducer(persistedStateConfig, PersistedReducer),
 });
 
 export const store = configureStore({

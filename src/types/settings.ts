@@ -12,7 +12,6 @@ export declare type DefaultLanguage = null;
 
 export interface SettingsState {
     colorScheme: AppColorScheme;
-    enableDeviceColors: boolean;
     language: SupportedLanguage | DefaultLanguage;
 }
 

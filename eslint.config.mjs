@@ -33,6 +33,7 @@ export default tseslint.config(
             'prettier',
             'airbnb-base',
             'airbnb-typescript/base',
+            'plugin:react-hooks/recommended',
         ),
     ),
     {
@@ -75,6 +76,7 @@ export default tseslint.config(
                     bracketSpacing: true,
                     arrowParens: 'avoid',
                     importOrderSeparation: true,
+                    bracketSameLine: false,
                 },
             ],
 
@@ -126,7 +128,8 @@ export default tseslint.config(
                     groups: [
                         ['\\u0000$'],
                         ['^node:'],
-                        ['^react'],
+                        ['^react-native$', '^react$'],
+                        ['^react-native', '^react'],
                         ['^\\w'],
                         ['^@/types'],
                         ['^@/hooks'],
