@@ -1,0 +1,70 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+      checks: write
+      pull-requests: write
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install node modules
+        run: |
+          yarn install --immutable --check-cache
+
+      - name: Run Typecheck
+        run: yarn typecheck
+
+      - name: Run ESLint
+        continue-on-error: true
+        id: eslint
+        run: |
+          SARIF_ESLINT_IGNORE_SUPPRESSED=true yarn lint --max-warnings=0 --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif
+
+      - name: Upload ESLint analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: eslint-results.sarif
+          wait-for-processing: true
+
+      - name: Run tests
+        # only if it is not a fork
+        if: ${{ 1 && (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push') }}
+        id: test
+        uses: willcaul/jest-github-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          test-command: "yarn test"
+
+      - name: Run tests (no report)
+        # only if it is not a fork
+        id: test-no-report
+        if: ${{ 1 && (github.event.pull_request.head.repo.full_name != github.repository && steps.test.outcome != 'success') }}
+        run: yarn test
+
+      - name: Fail if ESLint errors
+        if: steps.eslint.outcome == 'failure'
+        run: exit 1
