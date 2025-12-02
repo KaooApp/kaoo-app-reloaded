@@ -58,10 +58,11 @@ const OrderScreen: FC = () => {
                             style={{ backgroundColor: theme.colors.background }}
                         >
                             <Text
-                                variant="titleLarge"
+                                variant="titleMedium"
                                 style={{
                                     paddingHorizontal: 8,
                                     marginBottom: 4,
+                                    fontWeight: 'bold',
                                 }}
                             >
                                 {title}
