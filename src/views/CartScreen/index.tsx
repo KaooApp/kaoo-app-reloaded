@@ -2,7 +2,7 @@ import { FlatList } from 'react-native';
 import { useCallback, useMemo, useState } from 'react';
 
 import { Flex } from 'react-native-flex-layout';
-import { Button } from 'react-native-paper';
+import { Button, Icon, Text } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import type { FC } from 'react';
 
@@ -86,14 +86,21 @@ const CartScreen: FC = () => {
     return (
         <AppBarLayout title="Cart" settings>
             <Flex fill style={{ gap: 16 }}>
-                <Flex fill style={{ alignSelf: 'stretch' }}>
-                    <FlatList
-                        data={formattedCart}
-                        renderItem={({ item: [id, count] }) => (
-                            <CartItem id={id} count={count} />
-                        )}
-                    />
-                </Flex>
+                {itemsInCart ? (
+                    <Flex fill style={{ alignSelf: 'stretch' }}>
+                        <FlatList
+                            data={formattedCart}
+                            renderItem={({ item: [id, count] }) => (
+                                <CartItem id={id} count={count} />
+                            )}
+                        />
+                    </Flex>
+                ) : (
+                    <Flex fill center style={{ gap: 8 }}>
+                        <Icon source="cart-outline" size={48} />
+                        <Text variant="headlineMedium">No items in cart</Text>
+                    </Flex>
+                )}
                 <Flex ph={12} style={{ alignSelf: 'stretch' }}>
                     <Button
                         onPress={handleCheckout}
