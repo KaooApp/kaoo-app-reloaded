@@ -11,6 +11,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 
 import { PersistedReducer } from '@/slices/persisted';
 import { SettingsReducer } from '@/slices/settings';
+import { UiReducer } from '@/slices/ui';
 
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
@@ -48,6 +49,7 @@ const persistedStateConfig = {
 const rootReducer = combineReducers({
     settings: persistReducer(settingsPersistConfig, SettingsReducer),
     persisted: persistReducer(persistedStateConfig, PersistedReducer),
+    ui: UiReducer,
 });
 
 export const store = configureStore({

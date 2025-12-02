@@ -19,10 +19,6 @@ export type SetColorSchemeAction = PayloadAction<{
     scheme: SettingsState['colorScheme'];
 }>;
 
-export type SetEnableDeviceColorsAction = PayloadAction<{
-    enable: boolean;
-}>;
-
 export type SetLanguageAction = PayloadAction<{
     language: SupportedLanguage;
 }>;

@@ -8,9 +8,11 @@ import type {
     UpdateOrderItemsAction,
 } from '@/types/persisted';
 
+import { hasDifferentOrderItems } from '@/utils/helpers';
+import rootLogging from '@/utils/root-logging';
+
 import { defaultShopId } from '@/constants';
 
-// import { rootLogging } from '@/utils/root-logging';
 import { createSlice, current } from '@reduxjs/toolkit';
 
 const initialState: PersistedState = {
@@ -23,7 +25,7 @@ const initialState: PersistedState = {
     previousOrderItems: null,
 };
 
-// const log = rootLogging.extend('SettingsSlice');
+const log = rootLogging.extend('SettingsSlice');
 
 const persistedSlice = createSlice({
     name: 'persisted',
@@ -37,8 +39,11 @@ const persistedSlice = createSlice({
             state,
             action: StartRestaurantSessionAction,
         ) => {
+            const restaurantId = current(state).selectedStore.id;
+
             state.currentSession = {
                 ...action.payload.info,
+                restaurantId,
                 sessionStart: new Date(),
             };
         },
@@ -51,7 +56,14 @@ const persistedSlice = createSlice({
         updateOrderItems: (state, action: UpdateOrderItemsAction) => {
             const currentOrderItems = current(state).orderItems;
 
-            if (currentOrderItems) {
+            if (
+                currentOrderItems &&
+                hasDifferentOrderItems(
+                    currentOrderItems,
+                    action.payload.orderItems,
+                )
+            ) {
+                log.info('Found different items, rewriting previousOrderItems');
                 state.previousOrderItems = {
                     items: currentOrderItems
                         .flatMap(category => category.det)
@@ -64,9 +76,12 @@ const persistedSlice = createSlice({
                                     product_id: item.product_id,
                                     cost: item.cost,
                                 }) as SavedOrderItem,
-                        ),
+                        )
+                        .splice(0, 2),
                     lastUpdated: new Date(),
                 };
+            } else {
+                log.info('Items did not change');
             }
 
             state.orderItems = action.payload.orderItems;

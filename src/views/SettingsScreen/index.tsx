@@ -1,3 +1,5 @@
+import { ScrollView } from 'react-native';
+
 import { Button, Text } from 'react-native-paper';
 import type { FC } from 'react';
 
@@ -10,25 +12,29 @@ const SettingsScreen: FC = () => {
     const dispatch = useAppDispatch();
 
     const settings = useAppSelector(state => state.settings);
+    const persisted = useAppSelector(state => state.persisted);
 
     return (
         <AppBarLayout title="Settings" back>
-            <Text>SettingsScreen</Text>
-            <Button
-                onPress={() => {
-                    dispatch(resetState());
-                }}
-            >
-                Reset persisted config
-            </Button>
-            <Button
-                onPress={() => {
-                    dispatch(resetSettings());
-                }}
-            >
-                Reset settings
-            </Button>
-            <Text>{JSON.stringify(settings, null, 4)}</Text>
+            <ScrollView>
+                <Text>SettingsScreen</Text>
+                <Button
+                    onPress={() => {
+                        dispatch(resetState());
+                    }}
+                >
+                    Reset persisted config
+                </Button>
+                <Button
+                    onPress={() => {
+                        dispatch(resetSettings());
+                    }}
+                >
+                    Reset settings
+                </Button>
+                <Text>{JSON.stringify(settings, null, 4)}</Text>
+                <Text>{JSON.stringify(persisted, null, 4)}</Text>
+            </ScrollView>
         </AppBarLayout>
     );
 };

@@ -12,8 +12,10 @@ module.exports = {
                 root: ['.'],
                 alias: {
                     '@': './src',
+                    '@assets': './assets',
                 },
             },
         ],
+        'react-native-worklets/plugin',
     ],
 };

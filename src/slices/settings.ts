@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars,no-param-reassign */
 import type {
     SetColorSchemeAction,
-    SetEnableDeviceColorsAction,
     SetLanguageAction,
     SettingsState,
 } from '@/types/settings';

@@ -29,7 +29,11 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import type { SupportedLanguage } from '@/translations';
 
 import RNLanguageDetector from '@os-team/i18next-react-native-language-detector';
-import { NavigationContainer } from '@react-navigation/native';
+import { useLogger } from '@react-navigation/devtools';
+import {
+    NavigationContainer,
+    useNavigationContainerRef,
+} from '@react-navigation/native';
 import { NavigationBar } from '@zoontek/react-native-navigation-bar';
 
 const log = rootLogging.extend('InnerApp');
@@ -136,6 +140,10 @@ const InnerApp: FC = () => {
         log.info('react-native-config', JSON.stringify(Config, null, 4));
     }, []); */
 
+    const navigationRef = useNavigationContainerRef();
+
+    useLogger(navigationRef);
+
     if (!i18nLanguageMatchesSettings) {
         return null;
     }
@@ -145,7 +153,7 @@ const InnerApp: FC = () => {
             <NavigationBar
                 barStyle={enableDarkMode ? 'dark-content' : 'light-content'}
             />
-            <NavigationContainer theme={navigationTheme}>
+            <NavigationContainer theme={navigationTheme} ref={navigationRef}>
                 <NavigationStack />
                 <Toast
                     position="bottom"

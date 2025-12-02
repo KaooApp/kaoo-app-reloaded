@@ -2,17 +2,23 @@ import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 import type { FC } from 'react';
 
+import NavigationTabs from '@/navigation/NavigationTabs';
 import { useAppSelector } from '@/store';
-import OrderScreens from '@/views/OrderScreens';
+import ManuallyEnterTableScreen from '@/views/ManuallyEnterTableScreen';
+import ScanTableQrCodeScreen from '@/views/ScanTableQrCodeScreen';
 import SettingsScreen from '@/views/SettingsScreen';
+import StartScreen from '@/views/StartScreen';
 import StartSessionScreen from '@/views/StartSessionScreen';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const screenNames = [
-    'OrderScreens',
+    'StartScreen',
+    'ScanTableQrCodeScreen',
+    'ManuallyEnterTableScreen',
     'StartSessionScreen',
+    'OrderTabs',
     'SettingsScreen',
 ] as const;
 
@@ -40,9 +46,7 @@ const NavigationStack: FC = () => {
 
     return (
         <Stack.Navigator
-            initialRouteName={
-                hasCurrentSession ? 'OrderScreens' : 'StartSessionScreen'
-            }
+            initialRouteName={hasCurrentSession ? 'OrderTabs' : 'StartScreen'}
             screenOptions={{
                 headerShown: false,
                 headerBackVisible: false,
@@ -50,7 +54,22 @@ const NavigationStack: FC = () => {
                 headerTransparent: true,
             }}
         >
-            <Stack.Screen name="OrderScreens" component={OrderScreens} />
+            <Stack.Screen
+                name="StartScreen"
+                component={StartScreen}
+                options={{ orientation: 'portrait' }}
+            />
+            <Stack.Screen
+                name="ScanTableQrCodeScreen"
+                component={ScanTableQrCodeScreen}
+                options={{ orientation: 'portrait' }}
+            />
+            <Stack.Screen
+                name="ManuallyEnterTableScreen"
+                component={ManuallyEnterTableScreen}
+                options={{ orientation: 'portrait' }}
+            />
+            <Stack.Screen name="OrderTabs" component={NavigationTabs} />
             <Stack.Screen
                 name="StartSessionScreen"
                 component={StartSessionScreen}

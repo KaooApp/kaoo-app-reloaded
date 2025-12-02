@@ -1,21 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import FastImage from 'react-native-fast-image';
 import { Flex } from 'react-native-flex-layout';
 import { Button, Text, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
 
-import AppBarLayout, {
-    modeAppbarHeight,
-} from '@/components/layout/AppBarLayout';
+import AppBarLayout from '@/components/layout/AppBarLayout';
+import FlexWithMargin from '@/components/layout/FlexWithMargin';
 import { useAppSelector } from '@/store';
 
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
 const StartSessionScreen: FC = () => {
+    const navigation = useNavigation();
+
     const theme = useTheme();
     const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
     const shopInfo = useAppSelector(
         state => state.persisted.selectedStore.info,
+    );
+
+    const tableNumber = useAppSelector(
+        state => state.persisted.currentSession?.tableNumber,
+    );
+
+    useFocusEffect(
+        useCallback(() => {
+            if (!shopInfo || !tableNumber) {
+                navigation.goBack();
+            }
+        }, [navigation, shopInfo, tableNumber]),
     );
 
     useEffect(() => {
@@ -32,10 +47,12 @@ const StartSessionScreen: FC = () => {
             }
             settings
         >
-            <Flex fill center mb={modeAppbarHeight.medium}>
-                {shopInfo ? (
+            <FlexWithMargin fill center>
+                {shopInfo && tableNumber ? (
                     <Flex center style={{ gap: 24 }}>
-                        <Text variant="headlineLarge">{shopInfo.shopname}</Text>
+                        <Text variant="headlineLarge">
+                            {shopInfo.shopname} - Table {tableNumber}
+                        </Text>
                         <FastImage
                             style={{
                                 width: 200,
@@ -53,12 +70,17 @@ const StartSessionScreen: FC = () => {
                             mode="contained-tonal"
                             contentStyle={{ height: 48, width: 200 }}
                             icon="food"
+                            onPress={() => {
+                                navigation.navigate('OrderTabs');
+                            }}
                         >
-                            Start eating
+                            Start eating!
                         </Button>
                     </Flex>
-                ) : null}
-            </Flex>
+                ) : (
+                    <Text>This is invalid</Text>
+                )}
+            </FlexWithMargin>
         </AppBarLayout>
     );
 };

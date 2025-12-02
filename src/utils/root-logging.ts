@@ -1,4 +1,5 @@
 import { InteractionManager } from 'react-native';
+
 import type {
     configLoggerType,
     transportFunctionType,

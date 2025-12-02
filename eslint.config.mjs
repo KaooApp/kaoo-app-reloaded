@@ -136,6 +136,7 @@ export default tseslint.config(
                         ['^@/utils'],
                         ['^@/'],
                         ['^[./]'],
+                        ['^@assets/'],
                     ],
                 },
             ],

@@ -1,8 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import type {
-    SavedOrderItem,
-} from '@/types/order-items';
+import type { SavedOrderItem } from '@/types/order-items';
 import type {
     RestaurantInfo,
     RestaurantSessionInfo,
@@ -26,7 +24,7 @@ export interface PersistedState {
 }
 
 export type StartRestaurantSessionAction = PayloadAction<{
-    info: RestaurantSessionInfo;
+    info: Pick<RestaurantSessionInfo, 'tableNumber'>;
 }>;
 
 export type SelectStoreAction = PayloadAction<{
