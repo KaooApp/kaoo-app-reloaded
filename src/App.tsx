@@ -10,6 +10,7 @@ import { PersistGate as ReduxPersistGate } from 'redux-persist/integration/react
 import ApiFetcher from '@/components/general/ApiFetcher';
 import InnerApp from '@/components/general/InnerApp';
 import { persistor, store } from '@/store';
+
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const App: FC = () => (
