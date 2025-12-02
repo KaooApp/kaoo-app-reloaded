@@ -1,5 +1,5 @@
 export interface RestaurantInfo {
-    shopid: string;
+    shopid: string & { readonly __brand: unique symbol };
     max: string;
     intervaltime: string;
     shopname: string;
@@ -11,8 +11,8 @@ export interface RestaurantInfo {
 }
 
 export interface RestaurantSessionInfo {
-    tableNumber: string;
-    restaurantId: string;
+    tableNumber: string & { readonly __brand: unique symbol };
+    restaurantId: RestaurantInfo['shopid'];
 }
 
 export interface StoredRestaurantSessionInfo extends RestaurantSessionInfo {

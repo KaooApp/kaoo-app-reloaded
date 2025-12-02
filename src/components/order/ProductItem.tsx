@@ -1,7 +1,8 @@
+import { View } from 'react-native';
 import { useCallback, useMemo } from 'react';
 
 import FastImage from 'react-native-fast-image';
-import { Flex } from 'react-native-flex-layout';
+import { Box, Flex } from 'react-native-flex-layout';
 import {
     Badge,
     Icon,
@@ -13,6 +14,9 @@ import {
 import type { FC } from 'react';
 
 import type { SavedOrderItem } from '@/types/order-items';
+
+import useIsFavorite from '@/hooks/use-is-favorite';
+import useIsInCart from '@/hooks/use-is-in-cart';
 
 import { setProductItemDetails } from '@/slices/ui';
 import { useAppDispatch, useAppSelector } from '@/store';
@@ -47,6 +51,9 @@ const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
         dispatch(setProductItemDetails({ productId: data.id }));
     }, [dispatch, data.id]);
 
+    const isFavorite = useIsFavorite({ id: data.id });
+    const isInCart = useIsInCart({ id: data.id });
+
     return (
         <Flex ph={12} pv={4}>
             <TouchableRipple
@@ -62,22 +69,61 @@ const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
                         justify="start"
                         style={{ gap: 16 }}
                     >
-                        <FastImage
-                            source={{ uri: data.img }}
-                            style={{ width: 48, height: 48, borderRadius: 8 }}
-                        />
+                        <Box>
+                            <FastImage
+                                source={{ uri: data.img }}
+                                style={{
+                                    width: 48,
+                                    height: 48,
+                                    borderRadius: 8,
+                                }}
+                            />
+                            {isFavorite ? (
+                                <View
+                                    style={{
+                                        height: 20,
+                                        width: 20,
+                                        borderRadius: '50%',
+                                        padding: 2,
+                                        backgroundColor: theme.colors.error,
+                                        position: 'absolute',
+                                        top: -5,
+                                        right: -8,
+                                    }}
+                                >
+                                    <Icon
+                                        source="heart"
+                                        size={16}
+                                        color={theme.colors.onError}
+                                    />
+                                </View>
+                            ) : null}
+                        </Box>
                         <Flex>
                             <Flex inline items="center" style={{ gap: 4 }}>
                                 <Text variant="titleMedium">
                                     {data.product_id}. {data.name}{' '}
                                 </Text>
-                                <Flex>
+                                <Flex inline style={{ gap: 4 }}>
                                     <Badge
                                         visible={itemIsNew}
                                         style={{ paddingHorizontal: 6 }}
                                     >
                                         New
                                     </Badge>
+                                    {isInCart ? (
+                                        <Badge
+                                            visible={itemIsNew}
+                                            style={{
+                                                paddingHorizontal: 6,
+                                                backgroundColor:
+                                                    theme.colors.primary,
+                                                color: theme.colors.onPrimary,
+                                            }}
+                                        >
+                                            In cart
+                                        </Badge>
+                                    ) : null}
                                 </Flex>
                             </Flex>
                             <Text

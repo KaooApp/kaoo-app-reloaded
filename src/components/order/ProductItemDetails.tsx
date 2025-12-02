@@ -5,8 +5,15 @@ import { Flex } from 'react-native-flex-layout';
 import { IconButton, Surface, Text, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
 
+import useIsFavorite from '@/hooks/use-is-favorite';
+
 import { findOrderItemById } from '@/utils/helpers';
 
+import {
+    addItemToCart,
+    removeItemFromCart,
+    setItemInFavorites,
+} from '@/slices/persisted';
 import { closeProductItem } from '@/slices/ui';
 import { useAppDispatch, useAppSelector } from '@/store';
 
@@ -24,12 +31,49 @@ const ProductItemDetails: FC = () => {
     const theme = useTheme();
 
     const dispatch = useAppDispatch();
+
     const product = useAppSelector(state =>
         findOrderItemById(
             state.persisted.orderItems,
             state.ui.productItemDetails,
         ),
     );
+
+    const isFavorite = useIsFavorite({ id: product?.id });
+
+    const productCountInCart = useAppSelector(state => {
+        const id = state.ui.productItemDetails;
+
+        if (id === null) {
+            return 0;
+        }
+
+        if (!(id in state.persisted.shoppingCart)) {
+            return 0;
+        }
+
+        return state.persisted.shoppingCart[id];
+    });
+
+    const increaseItemCount = (): void => {
+        if (product) {
+            dispatch(addItemToCart({ id: product.id }));
+        }
+    };
+
+    const decreaseItemCount = (): void => {
+        if (product) {
+            dispatch(removeItemFromCart({ id: product.id }));
+        }
+    };
+
+    const handleFavorite = (): void => {
+        if (product) {
+            dispatch(
+                setItemInFavorites({ id: product.id, favorite: !isFavorite }),
+            );
+        }
+    };
 
     const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -65,11 +109,12 @@ const ProductItemDetails: FC = () => {
                         {product?.name}
                     </Text>
                     <IconButton
-                        icon="heart-outline"
+                        icon={isFavorite ? 'heart' : 'heart-outline'}
                         mode="contained"
                         containerColor={theme.colors.error}
                         iconColor={theme.colors.onError}
                         size={24}
+                        onPress={handleFavorite}
                     />
                 </Flex>
                 <FastImage
@@ -92,7 +137,12 @@ const ProductItemDetails: FC = () => {
                     justify="center"
                     style={{ gap: 8 }}
                 >
-                    <IconButton mode="contained-tonal" icon="plus" size={32} />
+                    <IconButton
+                        mode="contained-tonal"
+                        icon="plus"
+                        size={32}
+                        onPress={increaseItemCount}
+                    />
                     <Surface
                         mode="flat"
                         style={{
@@ -103,9 +153,14 @@ const ProductItemDetails: FC = () => {
                             borderRadius: '50%',
                         }}
                     >
-                        <Text variant="bodyLarge">1</Text>
+                        <Text variant="bodyLarge">{productCountInCart}</Text>
                     </Surface>
-                    <IconButton mode="contained-tonal" icon="minus" size={32} />
+                    <IconButton
+                        mode="contained-tonal"
+                        icon="minus"
+                        size={32}
+                        onPress={decreaseItemCount}
+                    />
                 </Flex>
             </BottomSheetView>
         </BottomSheetModal>

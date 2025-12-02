@@ -1,6 +1,8 @@
 import { BottomNavigation, Icon, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
 
+import useItemCountInCart from '@/hooks/use-item-count-in-cart';
+
 import CartScreen from '@/views/CartScreen';
 import OrderHistoryScreen from '@/views/OrderHistoryScreen';
 import OrderScreen from '@/views/OrderScreen';
@@ -15,6 +17,8 @@ const USE_PAPER_NAVIGATION = true;
 
 const NavigationTabs: FC = () => {
     const theme = useTheme();
+
+    const itemsInCart = useItemCountInCart();
 
     return (
         <Tab.Navigator
@@ -83,7 +87,7 @@ const NavigationTabs: FC = () => {
                 name="CartScreen"
                 component={CartScreen}
                 options={{
-                    tabBarLabel: 'Cart',
+                    tabBarLabel: itemsInCart ? `Cart (${itemsInCart})` : 'Cart',
                     tabBarIcon: ({ color, size }) => (
                         <Icon source="cart" size={size} color={color} />
                     ),

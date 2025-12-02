@@ -1,8 +1,14 @@
 /* eslint-disable no-param-reassign */
 import type { SavedOrderItem } from '@/types/order-items';
 import type {
+    AddItemToCartAction,
+    AddItemToFavoritesAction,
+    DeleteItemFromCartAction,
     PersistedState,
+    RemoveItemFromCartAction,
+    RemoveItemFromFavoritesAction,
     SelectStoreAction,
+    SetItemInFavoritesAction,
     SetStoreInfoAction,
     StartRestaurantSessionAction,
     UpdateOrderItemsAction,
@@ -16,11 +22,26 @@ import { defaultShopId } from '@/constants';
 import { createSlice, current } from '@reduxjs/toolkit';
 
 const initialState: PersistedState = {
+    // session
     currentSession: null,
     selectedStore: {
         id: defaultShopId,
         info: null,
     },
+
+    // persons on the table, relevant for rate limit
+    personCount: {
+        adults: 4,
+        children: 4,
+    },
+
+    // cart
+    shoppingCart: {},
+
+    // favorites
+    favorites: {},
+
+    // order items
     orderItems: null,
     previousOrderItems: null,
 };
@@ -32,6 +53,8 @@ const persistedSlice = createSlice({
     initialState,
     reducers: {
         resetState: () => initialState,
+
+        // === Session === //
         clearSessionWithoutSave: state => {
             state.currentSession = null;
         },
@@ -86,6 +109,70 @@ const persistedSlice = createSlice({
 
             state.orderItems = action.payload.orderItems;
         },
+
+        // === cart === //
+        addItemToCart: (state, action: AddItemToCartAction) => {
+            const { id } = action.payload;
+
+            if (typeof state.shoppingCart[id] !== 'number') {
+                state.shoppingCart[id] = 0;
+            }
+
+            state.shoppingCart[id] += 1;
+        },
+        removeItemFromCart: (state, action: RemoveItemFromCartAction) => {
+            const { id } = action.payload;
+
+            if (typeof state.shoppingCart[id] !== 'number') {
+                state.shoppingCart[id] = 0;
+            }
+
+            if (state.shoppingCart[id] > 1) {
+                state.shoppingCart[id] -= 1;
+            } else if (state.shoppingCart[id] > 0) {
+                delete state.shoppingCart[id];
+            }
+        },
+        deleteItemFromCart: (state, action: DeleteItemFromCartAction) => {
+            const { id } = action.payload;
+
+            if (typeof state.shoppingCart[id] === 'number') {
+                delete state.shoppingCart[id];
+            }
+        },
+        clearCartAction: state => {
+            state.shoppingCart = {};
+        },
+
+        // === favorites === //
+        addItemToFavorites: (state, action: AddItemToFavoritesAction) => {},
+        removeItemFromFavorites: (
+            state,
+            action: RemoveItemFromFavoritesAction,
+        ) => {},
+        setItemInFavorites: (state, action: SetItemInFavoritesAction) => {
+            const { id, favorite } = action.payload;
+            const shopId = state.currentSession?.restaurantId;
+
+            if (!shopId) {
+                return;
+            }
+
+            if (!Array.isArray(state.favorites[shopId])) {
+                state.favorites[shopId] = [];
+            }
+
+            if (favorite) {
+                state.favorites[shopId].push(id);
+            } else {
+                state.favorites[shopId] = state.favorites[shopId].filter(
+                    itemId => itemId !== id,
+                );
+            }
+        },
+        clearFavorites: state => {
+            state.favorites = {};
+        },
     },
 });
 
@@ -96,6 +183,14 @@ export const {
     selectStore,
     setStoreInformation,
     updateOrderItems,
+    addItemToCart,
+    removeItemFromCart,
+    deleteItemFromCart,
+    clearCartAction,
+    addItemToFavorites,
+    removeItemFromFavorites,
+    setItemInFavorites,
+    clearFavorites,
 } = persistedSlice.actions;
 
 export const { reducer: PersistedReducer } = persistedSlice;

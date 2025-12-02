@@ -1,6 +1,6 @@
 export interface OrderItem {
-    id: string;
-    product_id: string;
+    id: string & { readonly __brand: unique symbol };
+    product_id: string & { readonly __brand: unique symbol };
     typeid: string; // refers to OrderItemCategory.id
     name: string;
     img: string;
