@@ -20,11 +20,20 @@ updates:
       - dependency-name: "typescript"
       - dependency-name: "expo"
       - dependency-name: "react-native-config"
+      - dependency-name: "react-native-mmkv"
     groups:
+      major-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
       version:
         applies-to: version-updates
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
       security:
         applies-to: security-updates
         patterns:
