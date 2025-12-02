@@ -3524,13 +3524,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zoontek/react-native-navigation-bar@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@zoontek/react-native-navigation-bar@npm:1.0.1"
+"@zoontek/react-native-navigation-bar@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@zoontek/react-native-navigation-bar@npm:1.0.2"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 5bcbd923b644974245032195aad7d94141007c4dbf0bc78ee579285f9e18c85b18ae280e94eff8d90ee4b4b7b70dd60c7bb8a8d9cd0c15094d880d9a12b73111
+  checksum: 4a528df99f078083cfe4d432fb3b9ddcfcaf27a9524a66219e135bb0c58f808d72a1ac9d0208ae7e540d8426ea30d73bef95771dcaa87fc07b10706d87cb62fb
   languageName: node
   linkType: hard
 
@@ -8096,7 +8096,7 @@ __metadata:
     "@types/react": ^19.1.1
     "@types/react-test-renderer": ^19.1.0
     "@typescript-eslint/parser": ^8.48.0
-    "@zoontek/react-native-navigation-bar": ^1.0.1
+    "@zoontek/react-native-navigation-bar": ^1.0.2
     babel-plugin-module-resolver: ^5.0.2
     eslint: ^9
     eslint-config-airbnb-base: ^15.0.0
