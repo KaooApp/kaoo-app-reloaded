@@ -21,6 +21,7 @@ import type {
 import type {
     OrderedItem,
     OrderedItemUuid,
+    PastRestaurantSessionInfo,
     StoredRestaurantSessionInfo,
 } from '@/types/restaurant';
 
@@ -38,6 +39,7 @@ const initialState: PersistedState = {
         id: defaultShopId,
         info: null,
     },
+    pastSessions: [],
 
     // persons on the table, relevant for rate limit
     personCount: {
@@ -79,6 +81,52 @@ const persistedSlice = createSlice({
                 shoppingCart: {},
                 tableHistory: [],
             } as StoredRestaurantSessionInfo;
+        },
+        endRestaurantSession: state => {
+            const { currentSession, orderItems } = current(state);
+
+            if (currentSession === null || orderItems === null) {
+                return;
+            }
+
+            const { restaurantId, tableNumber, sessionStart, orderedItems } =
+                currentSession;
+
+            const sessionRecord: PastRestaurantSessionInfo = {
+                restaurantId,
+                tableNumber,
+                orderedItems,
+                sessionStart,
+                sessionEnd: new Date(),
+                itemInformation: {},
+            };
+
+            const flatOrderItems = orderItems.flatMap(category => category.det);
+
+            for (const orderedItem of Object.values(orderedItems)) {
+                if (orderedItem.id in sessionRecord.itemInformation) {
+                    continue;
+                }
+
+                const item = flatOrderItems.find(
+                    orderItem => orderItem.id === orderedItem.id,
+                );
+
+                if (item) {
+                    sessionRecord.itemInformation[item.id as OrderItemId] = {
+                        name: item.name,
+                        product_id: item.product_id,
+                        cost: item.cost,
+                        img: item.img,
+                    };
+                }
+            }
+
+            state.pastSessions.push(sessionRecord);
+
+            state.currentSession = null;
+            state.orderItems = null;
+            state.personCount = initialState.personCount;
         },
         addCartToSession: (state, action: AddCartToSessionAction) => {
             if (!state.currentSession) {
@@ -273,6 +321,7 @@ export const {
     resetState,
     clearSessionWithoutSave,
     startRestaurantSession,
+    endRestaurantSession,
     selectStore,
     setStoreInformation,
     updateOrderItems,

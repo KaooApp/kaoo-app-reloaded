@@ -54,7 +54,7 @@ const OrderHistoryScreen: FC = () => {
             () => {
                 setRefreshing(false);
             },
-            minimumTime(before, 250),
+            minimumTime(before, 500),
         );
     }, [fetchTableOrderHistory]);
 

@@ -5,6 +5,7 @@ import type { OrderHistory } from '@/types/history';
 import type { OrderItemId, PreviousOrderItem } from '@/types/order-items';
 import type {
     OrderedItemUuid,
+    PastRestaurantSessionInfo,
     RestaurantInfo,
     RestaurantSessionInfo,
     StoredRestaurantSessionInfo,
@@ -19,6 +20,8 @@ export interface PersistedState {
         id: RestaurantInfo['shopid'];
         info: RestaurantInfo | null; // is null when not fetched
     };
+
+    pastSessions: PastRestaurantSessionInfo[];
 
     personCount: {
         adults: number;

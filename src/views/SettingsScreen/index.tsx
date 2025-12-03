@@ -33,7 +33,6 @@ const SettingsScreen: FC = () => {
                     Reset settings
                 </Button>
                 <Text>{JSON.stringify(settings, null, 4)}</Text>
-                <Text>{JSON.stringify(persisted, null, 4)}</Text>
             </ScrollView>
         </AppBarLayout>
     );

@@ -18,6 +18,11 @@ const useOrderProgress = (): {
         );
 
         const size = items.length;
+
+        if (size === 0) {
+            return { progress: 0, size: 0, received: 0 };
+        }
+
         const received = items.reduce((previousValue, currentValue) => {
             if (currentValue.received) {
                 return previousValue + 1;

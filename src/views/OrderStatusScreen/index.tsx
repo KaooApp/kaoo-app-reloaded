@@ -2,7 +2,7 @@ import { FlatList } from 'react-native';
 import { useMemo } from 'react';
 
 import { Flex } from 'react-native-flex-layout';
-import { Icon, ProgressBar, Text } from 'react-native-paper';
+import { Button, Icon, ProgressBar, Text } from 'react-native-paper';
 import type { FC } from 'react';
 
 import type { OrderedItem, OrderedItemUuid } from '@/types/restaurant';
@@ -12,9 +12,12 @@ import useOrderProgress from '@/hooks/use-order-progress';
 import AppBarLayout from '@/components/layout/AppBarLayout';
 import OrderStatusItem from '@/components/status/OrderStatusItem';
 import { successColor } from '@/constants';
-import { useAppSelector } from '@/store';
+import { endRestaurantSession } from '@/slices/persisted';
+import { useAppDispatch, useAppSelector } from '@/store';
 
 const OrderStatusScreen: FC = () => {
+    const dispatch = useAppDispatch();
+
     const orderedItems = useAppSelector(
         state => state.persisted.currentSession?.orderedItems ?? [],
     );
@@ -25,6 +28,10 @@ const OrderStatusScreen: FC = () => {
     );
 
     const orderProgress = useOrderProgress();
+
+    const handleFinishOrdering = (): void => {
+        dispatch(endRestaurantSession());
+    };
 
     return (
         <AppBarLayout title="Status" settings hasTabs>
@@ -47,27 +54,31 @@ const OrderStatusScreen: FC = () => {
                     </Flex>
                 )}
                 {orderProgress ? (
-                    <Flex
-                        inline
-                        style={{ alignSelf: 'stretch', gap: 8 }}
-                        ph={12}
-                        center
-                    >
-                        <Flex fill>
-                            <ProgressBar
-                                progress={orderProgress.progress ?? 0}
-                                style={{ borderRadius: 4 }}
-                                color={
-                                    orderProgress.progress === 1
-                                        ? successColor
-                                        : undefined
-                                }
-                            />
-                        </Flex>
-                        <Flex>
+                    <Flex style={{ alignSelf: 'stretch', gap: 8 }} ph={12}>
+                        <Flex inline center style={{ gap: 8 }}>
+                            <Flex fill>
+                                <ProgressBar
+                                    progress={orderProgress.progress ?? 0}
+                                    style={{ borderRadius: 4 }}
+                                    color={
+                                        orderProgress.progress === 1
+                                            ? successColor
+                                            : undefined
+                                    }
+                                />
+                            </Flex>
                             <Text>
                                 {orderProgress.received} / {orderProgress.size}
                             </Text>
+                        </Flex>
+                        <Flex>
+                            <Button
+                                mode="contained-tonal"
+                                disabled={orderProgress.progress !== 1}
+                                onPress={handleFinishOrdering}
+                            >
+                                Finish ordering
+                            </Button>
                         </Flex>
                     </Flex>
                 ) : null}
