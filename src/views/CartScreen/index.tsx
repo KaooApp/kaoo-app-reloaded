@@ -23,10 +23,12 @@ const CartScreen: FC = () => {
     const [loading, setLoading] = useState<boolean>();
     const dispatch = useAppDispatch();
 
-    const cart = useAppSelector(state => state.persisted.shoppingCart);
+    const cart = useAppSelector(
+        state => state.persisted.currentSession?.shoppingCart,
+    );
 
     const formattedCart = useMemo(
-        () => Object.entries(cart) as [OrderItemId, number][],
+        () => (cart ? (Object.entries(cart) as [OrderItemId, number][]) : []),
         [cart],
     );
 
@@ -45,7 +47,7 @@ const CartScreen: FC = () => {
 
         const { shopId, personCount, tableNumber } = informations;
 
-        if (!shopId || !personCount || !tableNumber) {
+        if (!shopId || !personCount || !tableNumber || !cart) {
             Toast.show({
                 text1: 'Error during checkout creation',
                 text2: 'Missing informations',
@@ -86,7 +88,9 @@ const CartScreen: FC = () => {
     }, [cart, dispatch, informations, loading]);
 
     const devAddCartToSession = (): void => {
-        dispatch(addCartToSession({ cart }));
+        if (cart) {
+            dispatch(addCartToSession({ cart }));
+        }
     };
 
     return (

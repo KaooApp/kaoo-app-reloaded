@@ -1,6 +1,6 @@
+import type { OrderHistory } from '@/types/history';
 import type { OrderItemId } from '@/types/order-items';
 import type { ShoppingCart } from '@/types/shopping-cart';
-import {OrderHistory} from '@/types/history';
 
 export type ShopId = string & { readonly __brand: unique symbol };
 

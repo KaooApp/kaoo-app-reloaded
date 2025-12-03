@@ -18,10 +18,11 @@ import type { PreviousOrderItem } from '@/types/order-items';
 import useIsFavorite from '@/hooks/use-is-favorite';
 import useIsInCart from '@/hooks/use-is-in-cart';
 
+import { getImageUrl } from '@/utils/api';
+import { fixItemName } from '@/utils/helpers';
+
 import { setProductItemDetails } from '@/slices/ui';
 import { useAppDispatch, useAppSelector } from '@/store';
-import {getImageUrl} from '@/utils/api';
-import {fixItemName} from '@/utils/helpers';
 
 export interface ProductItemProps {
     data: PreviousOrderItem;

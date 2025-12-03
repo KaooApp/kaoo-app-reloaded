@@ -9,10 +9,11 @@ import type { OrderItemId } from '@/types/order-items';
 
 import useOrderItem from '@/hooks/use-order-item';
 
+import { getImageUrl } from '@/utils/api';
+import { fixItemName } from '@/utils/helpers';
+
 import { setProductItemDetails } from '@/slices/ui';
 import { useAppDispatch } from '@/store';
-import {getImageUrl} from '@/utils/api';
-import {fixItemName} from '@/utils/helpers';
 
 export interface ProductItemProps {
     id: OrderItemId;
@@ -58,7 +59,8 @@ const CartItem: FC<ProductItemProps> = ({ id, count }) => {
                             />
                         </Box>
                         <Text variant="titleMedium">
-                            {count} &times; {data.product_id}. {fixItemName(data.name)}
+                            {count} &times; {data.product_id}.{' '}
+                            {fixItemName(data.name)}
                         </Text>
                         <Flex fill inline justify="end" items="center">
                             <Icon source="chevron-right" size={24} />

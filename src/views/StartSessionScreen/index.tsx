@@ -5,12 +5,13 @@ import { Flex } from 'react-native-flex-layout';
 import { Button, Text, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
 
+import { getImageUrl } from '@/utils/api';
+
 import AppBarLayout from '@/components/layout/AppBarLayout';
 import FlexWithMargin from '@/components/layout/FlexWithMargin';
 import { useAppSelector } from '@/store';
 
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import {getImageUrl} from '@/utils/api';
 
 const StartSessionScreen: FC = () => {
     const navigation = useNavigation();

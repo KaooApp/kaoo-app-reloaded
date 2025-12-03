@@ -14,10 +14,11 @@ import type { OrderedItem, OrderedItemUuid } from '@/types/restaurant';
 import useIsItemReceived from '@/hooks/use-is-item-received';
 import useOrderItem from '@/hooks/use-order-item';
 
+import { getImageUrl } from '@/utils/api';
+import { fixItemName } from '@/utils/helpers';
+
 import { setItemReceived } from '@/slices/persisted';
 import { useAppDispatch } from '@/store';
-import {getImageUrl} from '@/utils/api';
-import {fixItemName} from '@/utils/helpers';
 
 export interface OrderStatusItemProps {
     uuid: OrderedItemUuid;
@@ -67,7 +68,8 @@ const OrderStatusItem: FC<OrderStatusItemProps> = ({ data, uuid }) => {
                         </Box>
                         <Flex>
                             <Text variant="titleMedium">
-                                {itemData.product_id}. {fixItemName(itemData.name)}
+                                {itemData.product_id}.{' '}
+                                {fixItemName(itemData.name)}
                             </Text>
                             <Text
                                 variant="bodySmall"

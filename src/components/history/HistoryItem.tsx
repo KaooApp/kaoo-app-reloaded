@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import FastImage from 'react-native-fast-image';
 import { Box, Flex } from 'react-native-flex-layout';
@@ -14,9 +14,10 @@ import type { FC } from 'react';
 import type { OrderHistoryItemDetails } from '@/types/history';
 
 import { getImageUrl } from '@/utils/api';
+import { fixItemName } from '@/utils/helpers';
 
+import { setProductItemDetails } from '@/slices/ui';
 import { useAppDispatch } from '@/store';
-import {fixItemName} from '@/utils/helpers';
 
 export interface HistoryItemProps {
     data: OrderHistoryItemDetails;
@@ -27,9 +28,9 @@ const HistoryItem: FC<HistoryItemProps> = ({ data, currency }) => {
     const theme = useTheme();
     const dispatch = useAppDispatch();
 
-    /* const handleOnPress = useCallback(() => {
+    const handleOnPress = useCallback(() => {
         dispatch(setProductItemDetails({ productId: data.id }));
-    }, [dispatch, data.id]); */
+    }, [dispatch, data.id]);
 
     const itemIsFree = useMemo(() => {
         const parsedCost = parseFloat(data.goodscost);
@@ -44,7 +45,7 @@ const HistoryItem: FC<HistoryItemProps> = ({ data, currency }) => {
     return (
         <Flex ph={12} pv={4}>
             <TouchableRipple
-                onPress={() => {}}
+                onPress={handleOnPress}
                 borderless
                 style={{ borderRadius: 16 }}
             >
@@ -69,7 +70,8 @@ const HistoryItem: FC<HistoryItemProps> = ({ data, currency }) => {
                         <Flex>
                             <Flex inline items="center" style={{ gap: 4 }}>
                                 <Text variant="titleMedium">
-                                    {data.product_id}. {fixItemName(data.goodsname)}
+                                    {data.product_id}.{' '}
+                                    {fixItemName(data.goodsname)}
                                 </Text>
                             </Flex>
                             <Text

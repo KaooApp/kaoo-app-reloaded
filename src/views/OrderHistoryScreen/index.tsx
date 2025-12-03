@@ -20,6 +20,10 @@ const OrderHistoryScreen: FC = () => {
 
     const { fetchTableOrderHistory } = useApi();
 
+    const tableNumber = useAppSelector(
+        state => state.persisted.currentSession?.tableNumber,
+    );
+
     const currency = useAppSelector(
         state =>
             state.persisted.selectedStore.info?.currencydefault ??
@@ -42,7 +46,11 @@ const OrderHistoryScreen: FC = () => {
     }, [fetchTableOrderHistory]);
 
     return (
-        <AppBarLayout title="OrderHistoryScreen" settings hasTabs>
+        <AppBarLayout
+            title={`Order history of ${tableNumber ?? 'unknown'}`}
+            settings
+            hasTabs
+        >
             {sections ? (
                 <SectionList
                     sections={sections}

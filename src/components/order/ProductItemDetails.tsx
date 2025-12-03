@@ -7,6 +7,7 @@ import type { FC } from 'react';
 
 import useIsFavorite from '@/hooks/use-is-favorite';
 
+import { getImageUrl } from '@/utils/api';
 import { findOrderItemById } from '@/utils/helpers';
 
 import {
@@ -22,7 +23,6 @@ import {
     BottomSheetView,
     enableLogging,
 } from '@gorhom/bottom-sheet';
-import {getImageUrl} from '@/utils/api';
 
 if (__DEV__) {
     enableLogging();
@@ -45,15 +45,15 @@ const ProductItemDetails: FC = () => {
     const productCountInCart = useAppSelector(state => {
         const id = state.ui.productItemDetails;
 
-        if (id === null) {
+        if (id === null || !state.persisted.currentSession) {
             return 0;
         }
 
-        if (!(id in state.persisted.shoppingCart)) {
+        if (!(id in state.persisted.currentSession.shoppingCart)) {
             return 0;
         }
 
-        return state.persisted.shoppingCart[id];
+        return state.persisted.currentSession.shoppingCart[id];
     });
 
     const increaseItemCount = (): void => {
