@@ -13,7 +13,7 @@ import {
 } from 'react-native-paper';
 import type { FC } from 'react';
 
-import type { SavedOrderItem } from '@/types/order-items';
+import type { PreviousOrderItem } from '@/types/order-items';
 
 import useIsFavorite from '@/hooks/use-is-favorite';
 import useIsInCart from '@/hooks/use-is-in-cart';
@@ -22,7 +22,7 @@ import { setProductItemDetails } from '@/slices/ui';
 import { useAppDispatch, useAppSelector } from '@/store';
 
 export interface ProductItemProps {
-    data: SavedOrderItem;
+    data: PreviousOrderItem;
     currency: string;
 }
 
@@ -102,7 +102,7 @@ const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
                         <Flex>
                             <Flex inline items="center" style={{ gap: 4 }}>
                                 <Text variant="titleMedium">
-                                    {data.product_id}. {data.name}{' '}
+                                    {data.product_id}. {data.name}
                                 </Text>
                                 <Flex inline style={{ gap: 4 }}>
                                     <Badge
@@ -134,7 +134,7 @@ const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
                                         : undefined,
                                     color: itemIsFree
                                         ? theme.colors.error
-                                        : undefined,
+                                        : theme.colors.onSurface,
                                 }}
                             >
                                 {data.cost} {currency}

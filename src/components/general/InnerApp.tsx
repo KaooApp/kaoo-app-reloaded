@@ -23,6 +23,7 @@ import {
     ReactNavigationLightTheme,
 } from '@/utils/theme';
 
+import ProductItemDetails from '@/components/order/ProductItemDetails';
 import NavigationStack from '@/navigation/NavigationStack';
 import { setLanguage } from '@/slices/settings';
 import { useAppDispatch, useAppSelector } from '@/store';
@@ -206,6 +207,7 @@ const InnerApp: FC = () => {
                     }}
                 />
             </NavigationContainer>
+            <ProductItemDetails />
         </PaperProvider>
     );
 };

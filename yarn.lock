@@ -8319,6 +8319,7 @@ __metadata:
     react-native-safe-area-context: ^5.6.2
     react-native-screens: ^4.18.0
     react-native-toast-message: ^2.3.3
+    react-native-uuid: ^2.0.3
     react-native-version: ^4.0.0
     react-native-worklets: ^0.6.1
     react-redux: ^9.2.0
@@ -10352,6 +10353,13 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 313fe6e6b6437b2384d13f8987a141f9aa2df0930a668628276ed5ea990917e7d953dfa1584aa4991326ee9430baab1b735adf0b4a9861e702996617a583cc33
+  languageName: node
+  linkType: hard
+
+"react-native-uuid@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "react-native-uuid@npm:2.0.3"
+  checksum: e47774481feaed5d38f75fb4b03f5189c03e7452038f1b0fa56677add8a8bdef64ec7ad5e83f9fa761d8788cac5c8e554ade07e82a2818145337df7c883e2124
   languageName: node
   linkType: hard
 

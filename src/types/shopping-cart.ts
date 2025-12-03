@@ -1,3 +1,3 @@
-import type { OrderItem } from '@/types/order-items';
+import type { OrderItemId } from '@/types/order-items';
 
-export type ShoppingCart = Record<OrderItem['id'], number>; // OrderItem.id -> count
+export type ShoppingCart = Record<OrderItemId, number>; // OrderItem.id -> count

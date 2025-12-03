@@ -1,4 +1,4 @@
-import type { OrderItem } from '@/types/order-items';
+import type { OrderItemId } from '@/types/order-items';
 import type { RestaurantInfo } from '@/types/restaurant';
 
 // Ordering works like this:
@@ -9,7 +9,7 @@ import type { RestaurantInfo } from '@/types/restaurant';
 
 export interface OrderRequest {
     shopid: RestaurantInfo['shopid'];
-    ids: OrderItem['id'][];
+    ids: OrderItemId[];
     nums: string[]; // Order count
     table_num: string;
     person_count: number;

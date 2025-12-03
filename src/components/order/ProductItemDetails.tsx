@@ -80,6 +80,8 @@ const ProductItemDetails: FC = () => {
     useEffect(() => {
         if (product !== null) {
             bottomSheetRef.current?.present();
+        } else {
+            bottomSheetRef.current?.forceClose();
         }
     }, [product]);
 
@@ -106,7 +108,7 @@ const ProductItemDetails: FC = () => {
             >
                 <Flex inline items="center" style={{ gap: 8 }}>
                     <Text variant="titleLarge" style={{ color }}>
-                        {product?.name}
+                        {product?.name ?? 'NULL'}
                     </Text>
                     <IconButton
                         icon={isFavorite ? 'heart' : 'heart-outline'}

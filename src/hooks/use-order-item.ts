@@ -1,11 +1,11 @@
-import type { OrderItem } from '@/types/order-items';
+import type { OrderItem, OrderItemId } from '@/types/order-items';
 
 import { useAppSelector } from '@/store';
 
 const useOrderItem = ({
     id,
 }: {
-    id: OrderItem['id'] | undefined;
+    id: OrderItemId | undefined;
 }): OrderItem | null =>
     useAppSelector(state => {
         if (!id) {

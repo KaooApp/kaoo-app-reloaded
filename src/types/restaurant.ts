@@ -1,5 +1,9 @@
+import type { OrderItemId } from '@/types/order-items';
+
+export type ShopId = string & { readonly __brand: unique symbol };
+
 export interface RestaurantInfo {
-    shopid: string & { readonly __brand: unique symbol };
+    shopid: ShopId;
     max: string;
     intervaltime: string;
     shopname: string;
@@ -10,11 +14,21 @@ export interface RestaurantInfo {
     currencydefault: string;
 }
 
+export type TableNumber = string & { readonly __brand: unique symbol };
+
 export interface RestaurantSessionInfo {
-    tableNumber: string & { readonly __brand: unique symbol };
+    tableNumber: TableNumber;
     restaurantId: RestaurantInfo['shopid'];
 }
 
+export interface OrderedItem {
+    id: OrderItemId;
+    received: boolean;
+}
+
+export type OrderedItemUuid = string & { readonly __brand: unique symbol };
+
 export interface StoredRestaurantSessionInfo extends RestaurantSessionInfo {
     sessionStart: Date;
+    orderedItems: Record<OrderedItemUuid, OrderedItem>; // uuid -> { OrderItem.Id , received }
 }

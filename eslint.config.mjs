@@ -59,6 +59,7 @@ export default tseslint.config(
             },
         },
         rules: {
+            'no-plusplus': 'off',
             'linebreak-style': ['error', 'unix'],
             'no-nested-ternary': 'off',
             'no-confusing-arrow': 'off',

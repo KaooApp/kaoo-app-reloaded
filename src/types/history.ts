@@ -1,9 +1,9 @@
-import type { OrderItem } from '@/types/order-items';
+import type { OrderItemId } from '@/types/order-items';
 
 export interface OrderHistoryItemDetails {
     id: string & { readonly __brand: unique symbol };
     order_id: OrderHistoryItem['id'];
-    goodsid: OrderItem['id'];
+    goodsid: OrderItemId;
     img: string;
     goodsname: string;
     goodscount: string;

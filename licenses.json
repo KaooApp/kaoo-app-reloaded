@@ -173,6 +173,12 @@
         "licenseUrl": "https://github.com/calintamas/react-native-toast-message/raw/master/LICENSE",
         "parents": "kaooappreloaded"
     },
+    "react-native-uuid@2.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/eugenehp/react-native-uuid",
+        "licenseUrl": "https://github.com/eugenehp/react-native-uuid/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
     "react-native-worklets@0.6.1": {
         "licenses": "MIT",
         "repository": "https://github.com/software-mansion/react-native-reanimated",

@@ -1,8 +1,8 @@
-import type { OrderItem } from '@/types/order-items';
+import type { OrderItemId } from '@/types/order-items';
 
 import { useAppSelector } from '@/store';
 
-const useIsFavorite = ({ id }: { id: OrderItem['id'] | undefined }): boolean =>
+const useIsFavorite = ({ id }: { id: OrderItemId | undefined }): boolean =>
     useAppSelector(state => {
         if (!id) {
             return false;

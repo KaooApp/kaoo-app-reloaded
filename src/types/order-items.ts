@@ -1,5 +1,7 @@
+export type OrderItemId = string & { readonly __brand: unique symbol };
+
 export interface OrderItem {
-    id: string & { readonly __brand: unique symbol };
+    id: OrderItemId;
     product_id: string & { readonly __brand: unique symbol };
     typeid: string; // refers to OrderItemCategory.id
     name: string;
@@ -10,7 +12,7 @@ export interface OrderItem {
     printer: string;
 }
 
-export type SavedOrderItem = Pick<
+export type PreviousOrderItem = Pick<
     OrderItem,
     'id' | 'product_id' | 'img' | 'name' | 'cost'
 >;

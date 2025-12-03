@@ -14,7 +14,7 @@ const StartScreen: FC = () => {
     const { navigate } = useNavigation();
 
     return (
-        <AppBarLayout settings back>
+        <AppBarLayout settings>
             <FlexWithMargin fill center style={{ gap: 16 }}>
                 <Image style={{ width: 180, height: 180 }} source={roll} />
                 <Button

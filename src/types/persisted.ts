@@ -1,8 +1,9 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type { Favorites } from '@/types/favorites';
-import type { OrderItem, SavedOrderItem } from '@/types/order-items';
+import type { OrderItemId, PreviousOrderItem } from '@/types/order-items';
 import type {
+    OrderedItemUuid,
     RestaurantInfo,
     RestaurantSessionInfo,
     StoredRestaurantSessionInfo,
@@ -26,7 +27,7 @@ export interface PersistedState {
     orderItems: FetchOrderItemsResponse | null;
     // previousOrderItems will be compared to a newly fetched list. This can then mark order items as new
     previousOrderItems: {
-        items: SavedOrderItem[];
+        items: PreviousOrderItem[];
         lastUpdated: Date;
     } | null;
 
@@ -54,26 +55,35 @@ export type UpdateOrderItemsAction = PayloadAction<{
 }>;
 
 export type AddItemToCartAction = PayloadAction<{
-    id: OrderItem['id'];
+    id: OrderItemId;
 }>;
 
 export type RemoveItemFromCartAction = PayloadAction<{
-    id: OrderItem['id'];
+    id: OrderItemId;
 }>;
 
 export type DeleteItemFromCartAction = PayloadAction<{
-    id: OrderItem['id'];
+    id: OrderItemId;
 }>;
 
 export type AddItemToFavoritesAction = PayloadAction<{
-    id: OrderItem['id'];
+    id: OrderItemId;
 }>;
 
 export type RemoveItemFromFavoritesAction = PayloadAction<{
-    id: OrderItem['id'];
+    id: OrderItemId;
 }>;
 
 export type SetItemInFavoritesAction = PayloadAction<{
-    id: OrderItem['id'];
+    id: OrderItemId;
     favorite: boolean;
+}>;
+
+export type AddCartToSessionAction = PayloadAction<{
+    cart: ShoppingCart;
+}>;
+
+export type SetItemReceivedAction = PayloadAction<{
+    uuid: OrderedItemUuid;
+    received: boolean;
 }>;

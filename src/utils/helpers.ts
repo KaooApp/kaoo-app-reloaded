@@ -5,25 +5,17 @@ import type { SectionListProps } from 'react-native';
 import type {
     OrderItem,
     OrderItemCategory,
-    SavedOrderItem,
+    OrderItemId,
 } from '@/types/order-items';
+import type { TableNumber } from '@/types/restaurant';
 
 import rootLogging from '@/utils/root-logging';
 
 const log = rootLogging.extend('helpers');
 
-export const convertOrderItems = (items: OrderItem[]): SavedOrderItem[] =>
-    items.map(item => ({
-        name: item.name,
-        cost: item.cost,
-        img: item.img,
-        product_id: item.product_id,
-        id: item.id,
-    }));
-
 export const convertBarcodeToTableNumber = (
     barcode: BarcodeResult | undefined,
-): string | null => {
+): TableNumber | null => {
     if (!barcode) {
         return null;
     }
@@ -34,7 +26,7 @@ export const convertBarcodeToTableNumber = (
         const url = new URL(data);
 
         // @ts-expect-error: Types from react-native are outdated, see https://github.com/facebook/react-native/issues/54733
-        return url.searchParams.get('tablenum');
+        return url.searchParams.get('tablenum') as TableNumber;
     } catch (e) {
         log.error('Error converting barcode to table', e);
         return null;
@@ -50,7 +42,9 @@ export const generateProductSectionListData = (
         data: orderItemCategory.det,
     })) ?? null;
 
-export const extractOrderItemIds = (data: OrderItemCategory[]): string[] => {
+export const extractOrderItemIds = (
+    data: OrderItemCategory[],
+): OrderItemId[] => {
     const itemIds = [];
 
     for (const category of data) {

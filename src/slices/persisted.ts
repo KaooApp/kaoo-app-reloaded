@@ -1,6 +1,9 @@
 /* eslint-disable no-param-reassign */
-import type { SavedOrderItem } from '@/types/order-items';
+import uuid from 'react-native-uuid';
+
+import type { OrderItemId, PreviousOrderItem } from '@/types/order-items';
 import type {
+    AddCartToSessionAction,
     AddItemToCartAction,
     AddItemToFavoritesAction,
     DeleteItemFromCartAction,
@@ -9,10 +12,16 @@ import type {
     RemoveItemFromFavoritesAction,
     SelectStoreAction,
     SetItemInFavoritesAction,
+    SetItemReceivedAction,
     SetStoreInfoAction,
     StartRestaurantSessionAction,
     UpdateOrderItemsAction,
 } from '@/types/persisted';
+import type {
+    OrderedItem,
+    OrderedItemUuid,
+    StoredRestaurantSessionInfo,
+} from '@/types/restaurant';
 
 import { hasDifferentOrderItems } from '@/utils/helpers';
 import rootLogging from '@/utils/root-logging';
@@ -65,10 +74,43 @@ const persistedSlice = createSlice({
             const restaurantId = current(state).selectedStore.id;
 
             state.currentSession = {
-                ...action.payload.info,
+                tableNumber: action.payload.info.tableNumber,
                 restaurantId,
                 sessionStart: new Date(),
-            };
+                orderedItems: {},
+            } as StoredRestaurantSessionInfo;
+        },
+        addCartToSession: (state, action: AddCartToSessionAction) => {
+            if (!state.currentSession) {
+                return;
+            }
+
+            const { cart } = action.payload;
+
+            for (const [itemId, count] of Object.entries(cart) as [
+                OrderItemId,
+                number,
+            ][]) {
+                for (let i = 0; i < count; i++) {
+                    state.currentSession.orderedItems[
+                        uuid.v4() as OrderedItemUuid
+                    ] = {
+                        id: itemId,
+                        received: false,
+                    } as OrderedItem;
+                }
+            }
+        },
+        setItemReceived: (state, action: SetItemReceivedAction) => {
+            if (!state.currentSession) {
+                return;
+            }
+
+            const { uuid: itemId, received } = action.payload;
+
+            if (state.currentSession.orderedItems[itemId]) {
+                state.currentSession.orderedItems[itemId].received = received;
+            }
         },
         selectStore: (state, action: SelectStoreAction) => {
             state.selectedStore.id = action.payload.shopId;
@@ -98,7 +140,7 @@ const persistedSlice = createSlice({
                                     name: item.name,
                                     product_id: item.product_id,
                                     cost: item.cost,
-                                }) as SavedOrderItem,
+                                }) as PreviousOrderItem,
                         )
                         .splice(0, 2),
                     lastUpdated: new Date(),
@@ -145,11 +187,39 @@ const persistedSlice = createSlice({
         },
 
         // === favorites === //
-        addItemToFavorites: (state, action: AddItemToFavoritesAction) => {},
+        addItemToFavorites: (state, action: AddItemToFavoritesAction) => {
+            const { id } = action.payload;
+            const shopId = state.currentSession?.restaurantId;
+
+            if (!shopId) {
+                return;
+            }
+
+            if (!Array.isArray(state.favorites[shopId])) {
+                state.favorites[shopId] = [];
+            }
+
+            state.favorites[shopId].push(id);
+        },
         removeItemFromFavorites: (
             state,
             action: RemoveItemFromFavoritesAction,
-        ) => {},
+        ) => {
+            const { id } = action.payload;
+            const shopId = state.currentSession?.restaurantId;
+
+            if (!shopId) {
+                return;
+            }
+
+            if (!Array.isArray(state.favorites[shopId])) {
+                state.favorites[shopId] = [];
+            }
+
+            state.favorites[shopId] = state.favorites[shopId].filter(
+                itemId => itemId !== id,
+            );
+        },
         setItemInFavorites: (state, action: SetItemInFavoritesAction) => {
             const { id, favorite } = action.payload;
             const shopId = state.currentSession?.restaurantId;
@@ -191,6 +261,8 @@ export const {
     removeItemFromFavorites,
     setItemInFavorites,
     clearFavorites,
+    addCartToSession,
+    setItemReceived,
 } = persistedSlice.actions;
 
 export const { reducer: PersistedReducer } = persistedSlice;

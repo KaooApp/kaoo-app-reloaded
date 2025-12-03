@@ -2,7 +2,7 @@
 
 import type { OrderHistory } from '@/types/history';
 import type { OrderRequest, OrderResponse } from '@/types/order';
-import type { OrderItem, OrderItemCategory } from '@/types/order-items';
+import type { OrderItemCategory, OrderItemId } from '@/types/order-items';
 import type { PersistedState } from '@/types/persisted';
 import type { RestaurantInfo, RestaurantSessionInfo } from '@/types/restaurant';
 import type { ShoppingCart } from '@/types/shopping-cart';
@@ -20,6 +20,11 @@ export const request = async (path: string): Promise<unknown> => {
             'Content-Type': 'application/json',
         },
     });
+
+    log.info(
+        `Received response from API: ${response.status}, ok=${response.ok}`,
+    );
+
     return response.json();
 };
 
@@ -82,26 +87,18 @@ export const sendOrder = async (
         ',',
     )}&table_num=${tableNum}&person_count=${personCount}&adult=${adult}&child=${child}&pscost=0.00`;
 
-    log.info(`[sendOrder] Sending order (url=${url}`);
+    log.info(`[sendOrder] Sending order (url=${url})`);
 
     const data = await request(url);
+
+    log.info(`[sendOrder] API returned: '${JSON.stringify(data)}'`);
 
     if (typeof data !== 'object' || data === null) {
         log.warn('[sendOrder] Invalid data received: Not an object');
         return null;
     }
 
-    if (
-        'code' in data &&
-        'msg' in data &&
-        'over' in data &&
-        'type' in data &&
-        'starttime' in data
-    ) {
-        return data as OrderResponse;
-    }
-
-    return null;
+    return data as OrderResponse;
 };
 
 export const getRestaurantInfo = async ({
@@ -162,7 +159,7 @@ export const prepareOrder = ({
     };
 
     for (const [itemId, count] of Object.entries(cart) as [
-        OrderItem['id'],
+        OrderItemId,
         number,
     ][]) {
         orderRequest.ids.push(itemId);

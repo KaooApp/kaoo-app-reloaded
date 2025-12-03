@@ -6,7 +6,7 @@ import { Button, Icon, Text } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import type { FC } from 'react';
 
-import type { OrderItem } from '@/types/order-items';
+import type { OrderItemId } from '@/types/order-items';
 
 import useItemCountInCart from '@/hooks/use-item-count-in-cart';
 
@@ -14,8 +14,10 @@ import { prepareOrder, sendOrder } from '@/utils/api';
 
 import CartItem from '@/components/cart/CartItem';
 import AppBarLayout from '@/components/layout/AppBarLayout';
-import { clearCartAction } from '@/slices/persisted';
+import { addCartToSession, clearCartAction } from '@/slices/persisted';
 import { useAppDispatch, useAppSelector } from '@/store';
+
+const SHOW_DEV_BUTTON = false;
 
 const CartScreen: FC = () => {
     const [loading, setLoading] = useState<boolean>();
@@ -24,7 +26,7 @@ const CartScreen: FC = () => {
     const cart = useAppSelector(state => state.persisted.shoppingCart);
 
     const formattedCart = useMemo(
-        () => Object.entries(cart) as [OrderItem['id'], number][],
+        () => Object.entries(cart) as [OrderItemId, number][],
         [cart],
     );
 
@@ -69,7 +71,7 @@ const CartScreen: FC = () => {
                 text2: result.msg,
                 type: 'success',
             });
-            // dispatch(addOrderToOrderList(cart));
+            dispatch(addCartToSession({ cart }));
         } else {
             Toast.show({
                 text1: 'Order failed',
@@ -82,6 +84,10 @@ const CartScreen: FC = () => {
 
         setLoading(false);
     }, [cart, dispatch, informations, loading]);
+
+    const devAddCartToSession = (): void => {
+        dispatch(addCartToSession({ cart }));
+    };
 
     return (
         <AppBarLayout title="Cart" settings>
@@ -107,10 +113,18 @@ const CartScreen: FC = () => {
                         mode="contained-tonal"
                         icon="cart"
                         loading={loading}
-                        disabled={!itemsInCart}
+                        disabled={!itemsInCart || SHOW_DEV_BUTTON}
                     >
                         Checkout {itemsInCart} items
                     </Button>
+                    {SHOW_DEV_BUTTON ? (
+                        <Button
+                            onPress={devAddCartToSession}
+                            mode="contained-tonal"
+                        >
+                            Add cart to order status
+                        </Button>
+                    ) : null}
                 </Flex>
             </Flex>
         </AppBarLayout>

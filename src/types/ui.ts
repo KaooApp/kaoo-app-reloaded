@@ -1,11 +1,11 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import type { OrderItem } from '@/types/order-items';
+import type { OrderItemId } from '@/types/order-items';
 
 export interface UiState {
-    productItemDetails: OrderItem['id'] | null;
+    productItemDetails: OrderItemId | null;
 }
 
 export type SetProductItemDetailsAction = PayloadAction<{
-    productId: OrderItem['id'];
+    productId: OrderItemId;
 }>;

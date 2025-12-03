@@ -9,7 +9,6 @@ import { generateProductSectionListData } from '@/utils/helpers';
 import { useApi } from '@/components/general/ApiFetcher';
 import AppBarLayout from '@/components/layout/AppBarLayout';
 import ProductItem from '@/components/order/ProductItem';
-import ProductItemDetails from '@/components/order/ProductItemDetails';
 import { defaultCurrency } from '@/constants';
 import { useAppSelector } from '@/store';
 
@@ -78,7 +77,6 @@ const OrderScreen: FC = () => {
                     keyExtractor={item => item.id}
                 />
             ) : null}
-            <ProductItemDetails />
         </AppBarLayout>
     );
 };

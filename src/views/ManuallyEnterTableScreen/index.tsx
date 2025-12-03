@@ -4,6 +4,8 @@ import { Flex } from 'react-native-flex-layout';
 import { Button, Text, TextInput } from 'react-native-paper';
 import type { FC } from 'react';
 
+import type { TableNumber } from '@/types/restaurant';
+
 import AppBarLayout from '@/components/layout/AppBarLayout';
 import FlexWithMargin from '@/components/layout/FlexWithMargin';
 import { startRestaurantSession } from '@/slices/persisted';
@@ -15,7 +17,9 @@ const ManuallyEnterTableScreen: FC = () => {
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
 
-    const [tableNumber, setTableNumber] = useState<string>('');
+    const [tableNumber, setTableNumber] = useState<TableNumber>(
+        '' as TableNumber,
+    );
 
     const handleContinue = useCallback(() => {
         if (tableNumber.length < 1) {
@@ -34,7 +38,9 @@ const ManuallyEnterTableScreen: FC = () => {
                     <TextInput
                         label="Table"
                         value={tableNumber}
-                        onChangeText={text => setTableNumber(text)}
+                        onChangeText={text =>
+                            setTableNumber(text as TableNumber)
+                        }
                         style={{
                             borderTopLeftRadius: 12,
                             borderTopRightRadius: 12,

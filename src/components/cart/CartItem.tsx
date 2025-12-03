@@ -5,7 +5,7 @@ import { Box, Flex } from 'react-native-flex-layout';
 import { Icon, Surface, Text, TouchableRipple } from 'react-native-paper';
 import type { FC } from 'react';
 
-import type { OrderItem } from '@/types/order-items';
+import type { OrderItemId } from '@/types/order-items';
 
 import useOrderItem from '@/hooks/use-order-item';
 
@@ -13,7 +13,7 @@ import { setProductItemDetails } from '@/slices/ui';
 import { useAppDispatch } from '@/store';
 
 export interface ProductItemProps {
-    id: OrderItem['id'];
+    id: OrderItemId;
     count: number;
 }
 
@@ -56,7 +56,7 @@ const CartItem: FC<ProductItemProps> = ({ id, count }) => {
                             />
                         </Box>
                         <Text variant="titleMedium">
-                            {count} &times; {data.product_id}. {data.name}{' '}
+                            {count} &times; {data.product_id}. {data.name}
                         </Text>
                         <Flex fill inline justify="end" items="center">
                             <Icon source="chevron-right" size={24} />
