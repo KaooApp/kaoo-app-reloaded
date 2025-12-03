@@ -3,15 +3,21 @@ import { createContext, useCallback, useContext, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import type { FC, PropsWithChildren } from 'react';
 
+import type { OrderHistory } from '@/types/history';
 import type { RestaurantInfo } from '@/types/restaurant';
 
 import type { FetchOrderItemsResponse } from '@/utils/api';
-import { getOrderItems, getRestaurantInfo } from '@/utils/api';
+import {
+    getOrderItems,
+    getRestaurantInfo,
+    getTableOrderHistory,
+} from '@/utils/api';
 import rootLogging from '@/utils/root-logging';
 
 import { defaultShopId } from '@/constants';
 import {
     selectStore,
+    setOrderHistory,
     setStoreInformation,
     updateOrderItems,
 } from '@/slices/persisted';
@@ -20,6 +26,7 @@ import { useAppDispatch, useAppSelector } from '@/store';
 export interface ApiContext {
     fetchRestaurantInfo: () => ReturnType<typeof getRestaurantInfo>;
     fetchOrderItems: () => ReturnType<typeof getOrderItems>;
+    fetchTableOrderHistory: () => ReturnType<typeof getTableOrderHistory>;
 }
 
 const apiContext = createContext<ApiContext | null>(null);
@@ -34,6 +41,9 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
     );
     const fetchedShopId = useAppSelector(
         state => state.persisted.selectedStore.info?.shopid,
+    );
+    const tableNumber = useAppSelector(
+        state => state.persisted.currentSession?.tableNumber,
     );
 
     const fetchRestaurantInfo =
@@ -72,6 +82,34 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
             return data;
         }, [dispatch, selectedShopId]);
 
+    const fetchTableOrderHistory =
+        useCallback(async (): Promise<OrderHistory | null> => {
+            if (!tableNumber) {
+                return null;
+            }
+
+            log.info(
+                `Fetching order history for table '${tableNumber}' from ApiContext`,
+            );
+
+            const data = await getTableOrderHistory({
+                shopId: selectedShopId,
+                tableNumber,
+            });
+
+            if (data === null) {
+                log.error('Failed to fetch table history from ApiContext');
+                Toast.show({
+                    text1: 'Unable to fetch table history',
+                    type: 'error',
+                });
+            } else {
+                dispatch(setOrderHistory({ history: data }));
+            }
+
+            return data;
+        }, [dispatch, selectedShopId, tableNumber]);
+
     useEffect(() => {
         if (typeof selectedShopId !== 'string' || !selectedShopId) {
             dispatch(selectStore({ shopId: defaultShopId }));
@@ -96,11 +134,18 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
         selectedShopId,
     ]);
 
+    useEffect(() => {
+        if (tableNumber) {
+            fetchTableOrderHistory();
+        }
+    }, [fetchTableOrderHistory, tableNumber]);
+
     return (
         <apiContext.Provider
             value={{
                 fetchRestaurantInfo,
                 fetchOrderItems,
+                fetchTableOrderHistory,
             }}
         >
             {children}

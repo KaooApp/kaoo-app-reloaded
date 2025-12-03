@@ -2,6 +2,7 @@ import type { BarcodeResult } from '@pushpendersingh/react-native-scanner';
 
 import type { SectionListProps } from 'react-native';
 
+import type { OrderHistory, OrderHistoryItemDetails } from '@/types/history';
 import type {
     OrderItem,
     OrderItemCategory,
@@ -42,6 +43,16 @@ export const generateProductSectionListData = (
         data: orderItemCategory.det,
     })) ?? null;
 
+export const generateHistorySectionListData = (
+    data: OrderHistory | null,
+): SectionListProps<OrderHistoryItemDetails>['sections'] | null =>
+    data?.map(historyItem => ({
+        title: historyItem.id,
+        key: historyItem.id,
+        time: historyItem.time,
+        data: historyItem.det,
+    })) ?? null;
+
 export const extractOrderItemIds = (
     data: OrderItemCategory[],
 ): OrderItemId[] => {
@@ -78,3 +89,11 @@ export const findOrderItemById = (
               ?.flatMap(category => category.det)
               .find(item => item.id === itemId) ?? null)
         : null;
+
+export const fixItemName = (name: string): string => {
+    if (!/\s/g.test(name)) {
+        return name.split(/(?=[A-Z])/).join(' ');
+    }
+
+    return name;
+};

@@ -20,6 +20,8 @@ import useIsInCart from '@/hooks/use-is-in-cart';
 
 import { setProductItemDetails } from '@/slices/ui';
 import { useAppDispatch, useAppSelector } from '@/store';
+import {getImageUrl} from '@/utils/api';
+import {fixItemName} from '@/utils/helpers';
 
 export interface ProductItemProps {
     data: PreviousOrderItem;
@@ -71,7 +73,7 @@ const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
                     >
                         <Box>
                             <FastImage
-                                source={{ uri: data.img }}
+                                source={{ uri: getImageUrl(data.img) }}
                                 style={{
                                     width: 48,
                                     height: 48,
@@ -102,7 +104,7 @@ const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
                         <Flex>
                             <Flex inline items="center" style={{ gap: 4 }}>
                                 <Text variant="titleMedium">
-                                    {data.product_id}. {data.name}
+                                    {data.product_id}. {fixItemName(data.name)}
                                 </Text>
                                 <Flex inline style={{ gap: 4 }}>
                                     <Badge

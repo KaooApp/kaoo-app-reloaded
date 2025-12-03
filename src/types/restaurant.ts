@@ -1,4 +1,6 @@
 import type { OrderItemId } from '@/types/order-items';
+import type { ShoppingCart } from '@/types/shopping-cart';
+import {OrderHistory} from '@/types/history';
 
 export type ShopId = string & { readonly __brand: unique symbol };
 
@@ -30,5 +32,13 @@ export type OrderedItemUuid = string & { readonly __brand: unique symbol };
 
 export interface StoredRestaurantSessionInfo extends RestaurantSessionInfo {
     sessionStart: Date;
+
+    // items that were previously ordered
     orderedItems: Record<OrderedItemUuid, OrderedItem>; // uuid -> { OrderItem.Id , received }
+
+    // cart
+    shoppingCart: ShoppingCart;
+
+    // table history
+    tableHistory: OrderHistory;
 }

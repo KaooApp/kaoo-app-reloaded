@@ -16,6 +16,8 @@ import useOrderItem from '@/hooks/use-order-item';
 
 import { setItemReceived } from '@/slices/persisted';
 import { useAppDispatch } from '@/store';
+import {getImageUrl} from '@/utils/api';
+import {fixItemName} from '@/utils/helpers';
 
 export interface OrderStatusItemProps {
     uuid: OrderedItemUuid;
@@ -55,7 +57,7 @@ const OrderStatusItem: FC<OrderStatusItemProps> = ({ data, uuid }) => {
                     >
                         <Box>
                             <FastImage
-                                source={{ uri: itemData.img }}
+                                source={{ uri: getImageUrl(itemData.img) }}
                                 style={{
                                     width: 48,
                                     height: 48,
@@ -65,7 +67,7 @@ const OrderStatusItem: FC<OrderStatusItemProps> = ({ data, uuid }) => {
                         </Box>
                         <Flex>
                             <Text variant="titleMedium">
-                                {itemData.product_id}. {itemData.name}
+                                {itemData.product_id}. {fixItemName(itemData.name)}
                             </Text>
                             <Text
                                 variant="bodySmall"

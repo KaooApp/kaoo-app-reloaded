@@ -11,6 +11,8 @@ import useOrderItem from '@/hooks/use-order-item';
 
 import { setProductItemDetails } from '@/slices/ui';
 import { useAppDispatch } from '@/store';
+import {getImageUrl} from '@/utils/api';
+import {fixItemName} from '@/utils/helpers';
 
 export interface ProductItemProps {
     id: OrderItemId;
@@ -47,7 +49,7 @@ const CartItem: FC<ProductItemProps> = ({ id, count }) => {
                     >
                         <Box>
                             <FastImage
-                                source={{ uri: data.img }}
+                                source={{ uri: getImageUrl(data.img) }}
                                 style={{
                                     width: 48,
                                     height: 48,
@@ -56,7 +58,7 @@ const CartItem: FC<ProductItemProps> = ({ id, count }) => {
                             />
                         </Box>
                         <Text variant="titleMedium">
-                            {count} &times; {data.product_id}. {data.name}
+                            {count} &times; {data.product_id}. {fixItemName(data.name)}
                         </Text>
                         <Flex fill inline justify="end" items="center">
                             <Icon source="chevron-right" size={24} />

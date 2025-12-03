@@ -13,6 +13,7 @@ import type {
     SelectStoreAction,
     SetItemInFavoritesAction,
     SetItemReceivedAction,
+    SetOrderHistoryAction,
     SetStoreInfoAction,
     StartRestaurantSessionAction,
     UpdateOrderItemsAction,
@@ -43,9 +44,6 @@ const initialState: PersistedState = {
         adults: 4,
         children: 4,
     },
-
-    // cart
-    shoppingCart: {},
 
     // favorites
     favorites: {},
@@ -78,6 +76,8 @@ const persistedSlice = createSlice({
                 restaurantId,
                 sessionStart: new Date(),
                 orderedItems: {},
+                shoppingCart: {},
+                tableHistory: [],
             } as StoredRestaurantSessionInfo;
         },
         addCartToSession: (state, action: AddCartToSessionAction) => {
@@ -154,36 +154,50 @@ const persistedSlice = createSlice({
 
         // === cart === //
         addItemToCart: (state, action: AddItemToCartAction) => {
-            const { id } = action.payload;
-
-            if (typeof state.shoppingCart[id] !== 'number') {
-                state.shoppingCart[id] = 0;
+            if (!state.currentSession) {
+                return;
             }
 
-            state.shoppingCart[id] += 1;
+            const { id } = action.payload;
+
+            if (typeof state.currentSession.shoppingCart[id] !== 'number') {
+                state.currentSession.shoppingCart[id] = 0;
+            }
+
+            state.currentSession.shoppingCart[id] += 1;
         },
         removeItemFromCart: (state, action: RemoveItemFromCartAction) => {
-            const { id } = action.payload;
-
-            if (typeof state.shoppingCart[id] !== 'number') {
-                state.shoppingCart[id] = 0;
+            if (!state.currentSession) {
+                return;
             }
 
-            if (state.shoppingCart[id] > 1) {
-                state.shoppingCart[id] -= 1;
-            } else if (state.shoppingCart[id] > 0) {
-                delete state.shoppingCart[id];
+            const { id } = action.payload;
+
+            if (typeof state.currentSession.shoppingCart[id] !== 'number') {
+                state.currentSession.shoppingCart[id] = 0;
+            }
+
+            if (state.currentSession.shoppingCart[id] > 1) {
+                state.currentSession.shoppingCart[id] -= 1;
+            } else if (state.currentSession.shoppingCart[id] > 0) {
+                delete state.currentSession.shoppingCart[id];
             }
         },
         deleteItemFromCart: (state, action: DeleteItemFromCartAction) => {
+            if (!state.currentSession) {
+                return;
+            }
+
             const { id } = action.payload;
 
-            if (typeof state.shoppingCart[id] === 'number') {
-                delete state.shoppingCart[id];
+            if (typeof state.currentSession.shoppingCart[id] === 'number') {
+                delete state.currentSession.shoppingCart[id];
             }
         },
         clearCartAction: state => {
-            state.shoppingCart = {};
+            if (state.currentSession) {
+                state.currentSession.shoppingCart = {};
+            }
         },
 
         // === favorites === //
@@ -243,6 +257,15 @@ const persistedSlice = createSlice({
         clearFavorites: state => {
             state.favorites = {};
         },
+
+        // === Order history === //
+        setOrderHistory: (state, action: SetOrderHistoryAction) => {
+            if (!state.currentSession) {
+                return;
+            }
+
+            state.currentSession.tableHistory = action.payload.history;
+        },
     },
 });
 
@@ -263,6 +286,7 @@ export const {
     clearFavorites,
     addCartToSession,
     setItemReceived,
+    setOrderHistory,
 } = persistedSlice.actions;
 
 export const { reducer: PersistedReducer } = persistedSlice;

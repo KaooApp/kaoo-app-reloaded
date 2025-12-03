@@ -1,6 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type { Favorites } from '@/types/favorites';
+import type { OrderHistory } from '@/types/history';
 import type { OrderItemId, PreviousOrderItem } from '@/types/order-items';
 import type {
     OrderedItemUuid,
@@ -30,9 +31,6 @@ export interface PersistedState {
         items: PreviousOrderItem[];
         lastUpdated: Date;
     } | null;
-
-    // cart
-    shoppingCart: ShoppingCart;
 
     // favorites
     favorites: Favorites;
@@ -86,4 +84,8 @@ export type AddCartToSessionAction = PayloadAction<{
 export type SetItemReceivedAction = PayloadAction<{
     uuid: OrderedItemUuid;
     received: boolean;
+}>;
+
+export type SetOrderHistoryAction = PayloadAction<{
+    history: OrderHistory;
 }>;

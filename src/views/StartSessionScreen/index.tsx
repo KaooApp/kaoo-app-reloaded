@@ -10,6 +10,7 @@ import FlexWithMargin from '@/components/layout/FlexWithMargin';
 import { useAppSelector } from '@/store';
 
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {getImageUrl} from '@/utils/api';
 
 const StartSessionScreen: FC = () => {
     const navigation = useNavigation();
@@ -63,7 +64,7 @@ const StartSessionScreen: FC = () => {
                             }}
                             onLoad={() => setImageLoaded(true)}
                             source={{
-                                uri: shopInfo.shoplogo,
+                                uri: getImageUrl(shopInfo.shoplogo),
                             }}
                         />
                         <Button

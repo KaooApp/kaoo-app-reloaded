@@ -22,6 +22,7 @@ import {
     BottomSheetView,
     enableLogging,
 } from '@gorhom/bottom-sheet';
+import {getImageUrl} from '@/utils/api';
 
 if (__DEV__) {
     enableLogging();
@@ -120,7 +121,7 @@ const ProductItemDetails: FC = () => {
                     />
                 </Flex>
                 <FastImage
-                    source={{ uri: product?.img }}
+                    source={{ uri: getImageUrl(product?.img) }}
                     style={{
                         width: 175,
                         height: 175,

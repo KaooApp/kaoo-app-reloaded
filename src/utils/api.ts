@@ -11,10 +11,20 @@ import rootLogging from '@/utils/root-logging';
 
 const log = rootLogging.extend('api');
 
-export const request = async (path: string): Promise<unknown> => {
-    log.info(`Fetching from API: ${path}`);
+export const apiBaseUrl = 'http://order.huaqiaobang.com';
 
-    const response = await fetch(path, {
+export const getImageUrl = (imgUrl?: string): string | undefined => {
+    if (imgUrl?.startsWith('/')) {
+        return `${apiBaseUrl}${imgUrl}`;
+    }
+
+    return imgUrl;
+};
+
+export const request = async (path: string): Promise<unknown> => {
+    log.info(`Fetching from API: ${apiBaseUrl}/${path}`);
+
+    const response = await fetch(`${apiBaseUrl}/${path}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -38,7 +48,7 @@ export const getOrderItems = async ({
     // http://order.huaqiaobang.com/index.php?ctrl=shop&action=jmGetGoodsType&id=323
     log.info(`[getOrderItems] Fetching order items for ${shopId}`);
     const data = await request(
-        `http://order.huaqiaobang.com/index.php?ctrl=shop&action=jmGetGoodsType&id=${shopId}`,
+        `/index.php?ctrl=shop&action=jmGetGoodsType&id=${shopId}`,
     );
 
     if (!Array.isArray(data)) {
@@ -49,14 +59,17 @@ export const getOrderItems = async ({
     return data;
 };
 
-export const getOrderHistory = async (
-    shopId: string,
-    tableNumber: string,
-): Promise<OrderHistory | null> => {
+export const getTableOrderHistory = async ({
+    shopId,
+    tableNumber,
+}: {
+    shopId: string;
+    tableNumber: string;
+}): Promise<OrderHistory | null> => {
     log.info('[getOrderHistory] Fetching order history...');
     // http://order.huaqiaobang.com/index.php?ctrl=order&action=jmOrderHistory&shopid=323&table_num=A16
     const data = await request(
-        `http://order.huaqiaobang.com/index.php?ctrl=order&action=jmOrderHistory&shopid=${shopId}&table_num=${tableNumber}`,
+        `/index.php?ctrl=order&action=jmOrderHistory&shopid=${shopId}&table_num=${tableNumber}`,
     );
 
     if (!Array.isArray(data)) {
@@ -81,7 +94,7 @@ export const sendOrder = async (
         child,
     } = order;
 
-    const url = `http://order.huaqiaobang.com/index.php?ctrl=order&action=makeorder&shopid=${shopid}&contactname=1&address=1&minit=81000&ids=${ids.join(
+    const url = `/index.php?ctrl=order&action=makeorder&shopid=${shopid}&contactname=1&address=1&minit=81000&ids=${ids.join(
         ',',
     )}&nums=${nums.join(
         ',',
@@ -111,7 +124,7 @@ export const getRestaurantInfo = async ({
         `[getRestaurantInfo] Fetching restaurant information for ${shopId}`,
     );
     const data = await request(
-        `http://order.huaqiaobang.com/index.php?ctrl=shop&action=jmGetShopInfo&id=${shopId}`,
+        `/index.php?ctrl=shop&action=jmGetShopInfo&id=${shopId}`,
     );
 
     if (typeof data !== 'object' || data === null) {
