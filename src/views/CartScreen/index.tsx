@@ -90,8 +90,8 @@ const CartScreen: FC = () => {
     };
 
     return (
-        <AppBarLayout title="Cart" settings>
-            <Flex fill style={{ gap: 16 }}>
+        <AppBarLayout title="Cart" settings hasTabs>
+            <Flex fill style={{ gap: 16 }} mb={16}>
                 {itemsInCart ? (
                     <Flex fill style={{ alignSelf: 'stretch' }}>
                         <FlatList

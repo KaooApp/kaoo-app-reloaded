@@ -14,6 +14,8 @@ export interface AppBarLayoutProps extends PropsWithChildren {
     settings?: boolean;
     disableSafeArea?: boolean;
     debug?: boolean;
+    // If the layout component is used in a screen that is rendered in a tab navigator
+    hasTabs?: boolean;
 }
 
 export { modeAppbarHeight } from 'react-native-paper/src/components/Appbar/utils';
@@ -27,6 +29,7 @@ const AppBarLayout: FC<AppBarLayoutProps> = ({
     settings,
     disableSafeArea,
     debug,
+    hasTabs,
 }) => {
     const insets = useSafeAreaInsets();
 
@@ -75,7 +78,7 @@ const AppBarLayout: FC<AppBarLayoutProps> = ({
                     style={{
                         flex: 1,
                         // paddingTop: insets.top,
-                        paddingBottom: insets.bottom,
+                        paddingBottom: hasTabs ? 0 : insets.bottom,
                         paddingLeft: insets.left,
                         paddingRight: insets.right,
                         backgroundColor: showDebugAreas

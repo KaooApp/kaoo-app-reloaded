@@ -27,8 +27,8 @@ const OrderStatusScreen: FC = () => {
     const orderProgress = useOrderProgress();
 
     return (
-        <AppBarLayout title="Status" settings>
-            <Flex fill style={{ gap: 16 }}>
+        <AppBarLayout title="Status" settings hasTabs>
+            <Flex fill style={{ gap: 16 }} mb={16}>
                 {formattedOrderedItems.length ? (
                     <Flex fill style={{ alignSelf: 'stretch' }}>
                         <FlatList

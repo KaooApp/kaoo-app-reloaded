@@ -41,7 +41,7 @@ const OrderScreen: FC = () => {
     }, [fetchOrderItems]);
 
     return (
-        <AppBarLayout title={`Order to Table ${tableNumber}`} settings>
+        <AppBarLayout title={`Order to Table ${tableNumber}`} settings hasTabs>
             {sections ? (
                 <SectionList
                     sections={sections}
