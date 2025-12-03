@@ -59,6 +59,11 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
                 });
             } else {
                 dispatch(setStoreInformation({ info: data }));
+                Toast.show({
+                    text1: 'Successfully fetched restaurant info',
+                    text2: new Date().toString(),
+                    type: 'success',
+                });
             }
 
             return data;

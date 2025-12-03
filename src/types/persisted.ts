@@ -92,3 +92,5 @@ export type SetItemReceivedAction = PayloadAction<{
 export type SetOrderHistoryAction = PayloadAction<{
     history: OrderHistory;
 }>;
+
+export type SetPersonCountAction = PayloadAction<PersistedState['personCount']>;

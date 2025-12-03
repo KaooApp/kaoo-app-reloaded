@@ -14,6 +14,7 @@ import type {
     SetItemInFavoritesAction,
     SetItemReceivedAction,
     SetOrderHistoryAction,
+    SetPersonCountAction,
     SetStoreInfoAction,
     StartRestaurantSessionAction,
     UpdateOrderItemsAction,
@@ -314,6 +315,11 @@ const persistedSlice = createSlice({
 
             state.currentSession.tableHistory = action.payload.history;
         },
+
+        // === Misc === //
+        setPersonCount: (state, action: SetPersonCountAction) => {
+            state.personCount = action.payload;
+        },
     },
 });
 
@@ -336,6 +342,7 @@ export const {
     addCartToSession,
     setItemReceived,
     setOrderHistory,
+    setPersonCount,
 } = persistedSlice.actions;
 
 export const { reducer: PersistedReducer } = persistedSlice;
