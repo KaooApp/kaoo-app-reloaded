@@ -97,3 +97,16 @@ export const fixItemName = (name: string): string => {
 
     return name;
 };
+
+export const millis = (): number => Date.now();
+
+export const minimumTime = (
+    start: number,
+    minimumMillisPassed: number,
+): number => {
+    const now = millis();
+
+    const diff = now - start;
+
+    return Math.max(0, minimumMillisPassed - diff);
+};

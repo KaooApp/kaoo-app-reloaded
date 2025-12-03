@@ -2,10 +2,14 @@ import { RefreshControl, SectionList, View } from 'react-native';
 import { useCallback, useMemo, useState } from 'react';
 
 import { Flex } from 'react-native-flex-layout';
-import { Text, useTheme } from 'react-native-paper';
+import { ActivityIndicator, Icon, Text, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
 
-import { generateHistorySectionListData } from '@/utils/helpers';
+import {
+    generateHistorySectionListData,
+    millis,
+    minimumTime,
+} from '@/utils/helpers';
 
 import { useApi } from '@/components/general/ApiFetcher';
 import HistoryItem from '@/components/history/HistoryItem';
@@ -41,8 +45,17 @@ const OrderHistoryScreen: FC = () => {
 
     const handleRefresh = useCallback(async (): Promise<void> => {
         setRefreshing(true);
+
+        const before = millis();
+
         await fetchTableOrderHistory();
-        setRefreshing(false);
+
+        setTimeout(
+            () => {
+                setRefreshing(false);
+            },
+            minimumTime(before, 250),
+        );
     }, [fetchTableOrderHistory]);
 
     return (
@@ -50,8 +63,26 @@ const OrderHistoryScreen: FC = () => {
             title={`Order history of ${tableNumber ?? 'unknown'}`}
             settings
             hasTabs
+            action={
+                sections?.length
+                    ? undefined
+                    : {
+                          icon: 'refresh',
+                          onPress: handleRefresh,
+                      }
+            }
         >
-            {sections ? (
+            {refreshing ? (
+                <Flex fill center style={{ gap: 8 }}>
+                    <ActivityIndicator size="large" />
+                    <Text variant="headlineMedium">Fetching history...</Text>
+                </Flex>
+            ) : !sections?.length ? (
+                <Flex fill center style={{ gap: 8 }}>
+                    <Icon source="close" size={48} />
+                    <Text variant="headlineMedium">No history found</Text>
+                </Flex>
+            ) : (
                 <SectionList
                     sections={sections}
                     refreshControl={
@@ -67,11 +98,11 @@ const OrderHistoryScreen: FC = () => {
                             items="center"
                             justify="between"
                             style={{ backgroundColor: theme.colors.background }}
+                            ph={8}
                         >
                             <Text
                                 variant="titleMedium"
                                 style={{
-                                    paddingHorizontal: 8,
                                     marginBottom: 4,
                                     fontWeight: 'bold',
                                 }}
@@ -89,7 +120,7 @@ const OrderHistoryScreen: FC = () => {
                     )}
                     keyExtractor={item => item.id}
                 />
-            ) : null}
+            )}
         </AppBarLayout>
     );
 };

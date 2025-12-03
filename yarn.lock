@@ -6505,6 +6505,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fuse.js@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "fuse.js@npm:7.1.0"
+  checksum: e0c7d6833d336f9facd9359a888170b90c418b2f46c6cb389fd7dbc708712a2d1c5f30b5fea13b634a090a21f69d746eb0ceaff545b11ca088d3e5058c2a8e15
+  languageName: node
+  linkType: hard
+
 "generator-function@npm:^2.0.0":
   version: 2.0.1
   resolution: "generator-function@npm:2.0.1"
@@ -8292,6 +8299,7 @@ __metadata:
     eslint-plugin-react-compiler: ^19.1.0-rc.2
     eslint-plugin-react-hooks: ^7.0.1
     eslint-plugin-simple-import-sort: ^12.1.1
+    fuse.js: ^7.1.0
     i18next: ^25.6.3
     icon-set-creator: ^1.2.6
     intl-pluralrules: ^2.0.1
@@ -8327,6 +8335,7 @@ __metadata:
     redux-persist: ^6.0.0
     typescript: ^5.8.3
     typescript-eslint: ^8.48.0
+    use-debounce: ^10.0.6
   languageName: unknown
   linkType: soft
 
@@ -12231,6 +12240,15 @@ __metadata:
   dependencies:
     punycode: ^2.1.0
   checksum: 7167432de6817fe8e9e0c9684f1d2de2bb688c94388f7569f7dbdb1587c9f4ca2a77962f134ec90be0cc4d004c939ff0d05acc9f34a0db39a3c797dada262633
+  languageName: node
+  linkType: hard
+
+"use-debounce@npm:^10.0.6":
+  version: 10.0.6
+  resolution: "use-debounce@npm:10.0.6"
+  peerDependencies:
+    react: "*"
+  checksum: 3180a576707c6b8827a60b0086d54f938a751aa73c2a03b046da7ed222aa9bc0a89da7cd80b0ea3dff6bad3203ff6f9a055faa8748f57b1c3fb78fa5874f9d90
   languageName: node
   linkType: hard
 

@@ -65,6 +65,12 @@
         "licenseUrl": "https://github.com/zoontek/react-native-navigation-bar/raw/master/LICENSE",
         "parents": "kaooappreloaded"
     },
+    "fuse.js@7.1.0": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/krisk/Fuse",
+        "licenseUrl": "https://github.com/krisk/Fuse/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
     "i18next@25.6.3": {
         "licenses": "MIT",
         "repository": "https://github.com/i18next/i18next",
@@ -207,6 +213,12 @@
         "licenses": "MIT",
         "repository": "https://github.com/rt2zz/redux-persist",
         "licenseUrl": "https://github.com/rt2zz/redux-persist/raw/master/LICENSE",
+        "parents": "kaooappreloaded"
+    },
+    "use-debounce@10.0.6": {
+        "licenses": "MIT",
+        "repository": "https://github.com/xnimorz/use-debounce",
+        "licenseUrl": "https://github.com/xnimorz/use-debounce/raw/master/LICENSE",
         "parents": "kaooappreloaded"
     }
 }

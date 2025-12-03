@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { Appbar } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -16,6 +16,10 @@ export interface AppBarLayoutProps extends PropsWithChildren {
     debug?: boolean;
     // If the layout component is used in a screen that is rendered in a tab navigator
     hasTabs?: boolean;
+    action?: {
+        icon: string;
+        onPress: () => void;
+    };
 }
 
 export { modeAppbarHeight } from 'react-native-paper/src/components/Appbar/utils';
@@ -30,10 +34,16 @@ const AppBarLayout: FC<AppBarLayoutProps> = ({
     disableSafeArea,
     debug,
     hasTabs,
+    action,
 }) => {
     const insets = useSafeAreaInsets();
 
     const navigation = useNavigation();
+
+    const actionIsLeft = Platform.select({
+        default: false,
+        ios: true,
+    });
 
     if (__DEV__) {
         log.info('Rerender AppBarLayout');
@@ -61,7 +71,9 @@ const AppBarLayout: FC<AppBarLayoutProps> = ({
                 {backEnabled ? (
                     <Appbar.BackAction onPress={backAction} />
                 ) : null}
+                {action && actionIsLeft ? <Appbar.Action {...action} /> : null}
                 <Appbar.Content title={title} />
+                {action && !actionIsLeft ? <Appbar.Action {...action} /> : null}
                 {settings ? (
                     <Appbar.Action
                         icon="cog"
