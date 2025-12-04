@@ -1,0 +1,104 @@
+name: Android Release Build
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  android-build:
+    name: Build android app with release signing key
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Fetch all tags
+        run: git fetch --tags --force
+
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: 'adopt'
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install node modules
+        run: |
+          yarn install --immutable --check-cache
+
+      - name: Cache Gradle Wrapper
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/android/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/android/build.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-caches-
+
+      - name: Make Gradlew executable
+        run: cd android && chmod +x ./gradlew
+
+      - name: Setup build tool version variable
+        shell: bash
+        run: |
+          BUILD_TOOL_VERSION=$(ls /usr/local/lib/android/sdk/build-tools/ | tail -n 1)
+          echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
+          echo Last build tool version is: $BUILD_TOOL_VERSION
+
+      - name: Build Android
+        run: |
+          cd android
+          ./gradlew assembleRelease --no-daemon --info --build-cache
+          for f in app/build/outputs/apk/release/*-unsigned.apk; do mv "$f" "${f%-unsigned.apk}.apk"; done
+
+      - name: Sign App Bundle
+        id: sign_app
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: android/app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
+          alias: ${{ secrets.ANDROID_SIGNING_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_SIGNING_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
+
+      - name: Remove unuseful files
+        run:
+          rm android/app/build/outputs/apk/release/*-aligned.apk
+
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: kaoo-app-reloaded
+          path: |
+            android/app/build/outputs/apk/release/*.apk
+            android/app/build/generated/assets/createBundleReleaseJsAndAssets/index.android.bundle
+          if-no-files-found: error
+
+      # skip release creation if this is not a tag push
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          generate_release_notes: true
+          prerelease: false
+          draft: true
+          files: |
+            android/app/build/outputs/apk/release/*-signed.apk
+            android/app/build/generated/assets/createBundleReleaseJsAndAssets/index.android.bundle
