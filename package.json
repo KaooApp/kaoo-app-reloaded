@@ -22,7 +22,10 @@
     "precommit-hooks": "bash -c \".git/hooks/pre-commit\"",
     "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install",
     "generate:icon": "iconset create",
-    "generate:splash": "echo 'Do not use this, the files were modified after generation' && exit 1 && react-native-bootsplash generate assets/splash.png"
+    "generate:splash": "echo 'Do not use this, the files were modified after generation' && exit 1 && react-native-bootsplash generate assets/splash.png",
+    "bump-version:major": "yarn version major && yarn postversion",
+    "bump-version:minor": "yarn version minor && yarn postversion",
+    "bump-version:patch": "yarn version patch && yarn postversion"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5",
