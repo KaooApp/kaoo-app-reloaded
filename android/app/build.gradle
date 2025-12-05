@@ -85,8 +85,8 @@ android {
         applicationId "xyz.commanderred.kaooappreloaded"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0.0"
+        versionCode 3
+        versionName "1.0.1"
         externalNativeBuild {
               // For ndk-build, instead use the ndkBuild block.
               cmake {
