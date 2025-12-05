@@ -13,6 +13,7 @@ export declare type DefaultLanguage = null;
 export interface SettingsState {
     colorScheme: AppColorScheme;
     language: SupportedLanguage | DefaultLanguage;
+    debugging: boolean;
 }
 
 export type SetColorSchemeAction = PayloadAction<{

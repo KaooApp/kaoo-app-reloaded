@@ -4,6 +4,7 @@ import type { FC } from 'react';
 
 import NavigationTabs from '@/navigation/NavigationTabs';
 import { useAppSelector } from '@/store';
+import DebugScreen from '@/views/DebugScreen';
 import ManuallyEnterTableScreen from '@/views/ManuallyEnterTableScreen';
 import ScanTableQrCodeScreen from '@/views/ScanTableQrCodeScreen';
 import SettingsScreen from '@/views/SettingsScreen';
@@ -20,6 +21,7 @@ const screenNames = [
     'StartSessionScreen',
     'OrderTabs',
     'SettingsScreen',
+    'DebugScreen',
 ] as const;
 
 type ScreenName = (typeof screenNames)[number];
@@ -75,6 +77,7 @@ const NavigationStack: FC = () => {
                 component={StartSessionScreen}
             />
             <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+            <Stack.Screen name="DebugScreen" component={DebugScreen} />
         </Stack.Navigator>
     );
 };

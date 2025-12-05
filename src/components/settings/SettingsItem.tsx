@@ -55,7 +55,7 @@ const SettingsItem: FC<SettingsItemProps> = ({
                             inline
                             items="center"
                             justify="between"
-                            style={{ padding: 8 }}
+                            style={{ padding: 12 }}
                         >
                             <Text
                                 variant="bodyLarge"
@@ -73,7 +73,7 @@ const SettingsItem: FC<SettingsItemProps> = ({
                                     inline
                                     items="center"
                                     justify="between"
-                                    style={{ padding: 8 }}
+                                    style={{ padding: 12 }}
                                 >
                                     <Text variant="labelSmall">{subtitle}</Text>
                                 </Flex>

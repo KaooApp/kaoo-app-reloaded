@@ -12,8 +12,10 @@ import {
     TouchableRipple,
     useTheme,
 } from 'react-native-paper';
+import Toast from 'react-native-toast-message';
 import type { FC } from 'react';
 
+import packageJson from 'package.json';
 import { useDebounce } from 'use-debounce';
 
 import type { ShopId } from '@/types/restaurant';
@@ -24,12 +26,24 @@ import PersonModal from '@/components/modals/PersonModal';
 import SettingsItem from '@/components/settings/SettingsItem';
 import SettingsSection from '@/components/settings/SettingsSection';
 import { clearSessionWithoutSave, selectStore } from '@/slices/persisted';
-import { setColorScheme } from '@/slices/settings';
+import {
+    disableDebugging,
+    enableDebugging,
+    setColorScheme,
+} from '@/slices/settings';
 import { useAppDispatch, useAppSelector } from '@/store';
+
+import { useNavigation } from '@react-navigation/native';
 
 const SettingsScreen: FC = () => {
     const dispatch = useAppDispatch();
     const theme = useTheme();
+    const navigation = useNavigation();
+
+    const debuggingEnabled = useAppSelector(state => state.settings.debugging);
+    const [presses, setPresses] = useState<number | null>(
+        debuggingEnabled ? null : 0,
+    );
 
     const settings = useAppSelector(state => state.settings);
     const selectedRestaurantId = useAppSelector(
@@ -58,6 +72,22 @@ const SettingsScreen: FC = () => {
 
     const [personModalOpen, setPersonModalOpen] = useState<boolean>(false);
 
+    useEffect(() => {
+        if (debuggingEnabled) {
+            return;
+        }
+
+        if (presses && presses > 5) {
+            dispatch(enableDebugging());
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setPresses(null);
+            Toast.show({
+                text1: 'Debugging enabled',
+                type: 'info',
+            });
+        }
+    }, [debuggingEnabled, dispatch, presses]);
+
     return (
         <AppBarLayout title="Settings" back>
             <ScrollView>
@@ -81,7 +111,7 @@ const SettingsScreen: FC = () => {
                                             justify="between"
                                             style={{
                                                 gap: 8,
-                                                paddingHorizontal: 8,
+                                                paddingHorizontal: 12,
                                                 paddingVertical: 4,
                                             }}
                                         >
@@ -154,7 +184,54 @@ const SettingsScreen: FC = () => {
                         </Box>
                     </SettingsItem>
                 </SettingsSection>
+                {debuggingEnabled ? (
+                    <SettingsSection title="Debugging">
+                        <SettingsItem title="Debug screen">
+                            <Button
+                                onPress={() => {
+                                    navigation.navigate('DebugScreen');
+                                }}
+                                mode="contained-tonal"
+                            >
+                                Open
+                            </Button>
+                        </SettingsItem>
+                        <SettingsItem title="Disable debugging">
+                            <Button
+                                onPress={() => {
+                                    dispatch(disableDebugging());
+                                    setPresses(0);
+                                }}
+                                mode="contained"
+                                buttonColor={theme.colors.error}
+                                textColor={theme.colors.onError}
+                            >
+                                Disable
+                            </Button>
+                        </SettingsItem>
+                    </SettingsSection>
+                ) : null}
             </ScrollView>
+            <Flex inline center mv={8}>
+                <Text
+                    variant="labelSmall"
+                    onPress={() => {
+                        if (debuggingEnabled) {
+                            return;
+                        }
+
+                        setPresses(prevState => {
+                            if (prevState === null) {
+                                return null;
+                            }
+
+                            return prevState + 1;
+                        });
+                    }}
+                >
+                    App Version {packageJson.version}
+                </Text>
+            </Flex>
             <PersonModal
                 open={personModalOpen}
                 onClose={() => setPersonModalOpen(false)}

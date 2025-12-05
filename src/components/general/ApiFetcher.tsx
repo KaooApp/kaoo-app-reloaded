@@ -131,13 +131,7 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
                 await fetchOrderItems();
             });
         }
-    }, [
-        dispatch,
-        fetchOrderItems,
-        fetchRestaurantInfo,
-        fetchedShopId,
-        selectedShopId,
-    ]);
+    }, [fetchOrderItems, fetchRestaurantInfo, fetchedShopId, selectedShopId]);
 
     useEffect(() => {
         if (tableNumber) {

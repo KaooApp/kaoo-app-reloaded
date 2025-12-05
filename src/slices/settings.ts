@@ -12,6 +12,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState: SettingsState = {
     colorScheme: AppColorScheme.System,
     language: null,
+    debugging: false,
 };
 
 // const log = rootLogging.extend('SettingsSlice');
@@ -29,11 +30,22 @@ const settingsSlice = createSlice({
         setLanguage: (state, action: SetLanguageAction) => {
             state.language = action.payload.language;
         },
+        enableDebugging: state => {
+            state.debugging = true;
+        },
+        disableDebugging: state => {
+            state.debugging = false;
+        },
     },
 });
 
-export const { resetSettings, setColorScheme, setLanguage } =
-    settingsSlice.actions;
+export const {
+    resetSettings,
+    setColorScheme,
+    setLanguage,
+    enableDebugging,
+    disableDebugging,
+} = settingsSlice.actions;
 
 export const { reducer: SettingsReducer } = settingsSlice;
 
