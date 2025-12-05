@@ -22,20 +22,45 @@ export const getImageUrl = (imgUrl?: string): string | undefined => {
 };
 
 export const request = async (path: string): Promise<unknown> => {
-    log.info(`Fetching from API: ${apiBaseUrl}/${path}`);
+    const url = `${apiBaseUrl}/${path}`;
 
-    const response = await fetch(`${apiBaseUrl}/${path}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    log.info(`Fetching from API: ${url}`);
 
-    log.info(
-        `Received response from API: ${response.status}, ok=${response.ok}`,
-    );
+    try {
+        const abortController = new AbortController();
 
-    return response.json();
+        const timeout = setTimeout(() => {
+            log.warn(`Aborting request ${url}`);
+            abortController.abort();
+        }, 5000);
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            signal: abortController.signal,
+        });
+
+        clearTimeout(timeout);
+
+        log.info(
+            `Received response from API: ${response.status}, ok=${response.ok}`,
+        );
+
+        return await response.json();
+    } catch (error) {
+        if (error instanceof Error) {
+            log.error(`Error during fetching ${url}`, {
+                errMsg: error.message,
+                stack: error.stack,
+            });
+        } else {
+            log.error(`Error during fetching ${url}, not instanceof Error`);
+        }
+
+        return null;
+    }
 };
 
 export type FetchOrderItemsResponse = OrderItemCategory[];

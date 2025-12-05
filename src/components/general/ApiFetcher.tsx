@@ -89,6 +89,9 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
     const fetchTableOrderHistory =
         useCallback(async (): Promise<OrderHistory | null> => {
             if (!tableNumber) {
+                log.warn(
+                    'Table number enumerates to false, aborting fetchTableOrderHistory()',
+                );
                 return null;
             }
 
@@ -115,26 +118,41 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
         }, [dispatch, selectedShopId, tableNumber]);
 
     useEffect(() => {
+        log.info('Running selectStore() hook');
         if (typeof selectedShopId !== 'string' || !selectedShopId) {
+            log.info('Dispatching in selectStore() hook');
             dispatch(selectStore({ shopId: defaultShopId }));
+        } else {
+            log.info('Not doing anything in selectStore() hook');
         }
     }, [dispatch, selectedShopId]);
 
     useEffect(() => {
+        log.info('Running fetchRestaurantInfo() hook');
         if (
             typeof fetchedShopId !== 'string' ||
             fetchedShopId !== selectedShopId
         ) {
+            log.info('Calling fetchRestaurantInfo() in respective hook');
             fetchRestaurantInfo().then(async () => {
                 // fetch items of that restaurant
+                log.info(
+                    'Calling fetchOrderItems() in fetchRestaurantInfo() hook',
+                );
                 await fetchOrderItems();
             });
+        } else {
+            log.info('Not doing anything in fetchRestaurantInfo() hook');
         }
     }, [fetchOrderItems, fetchRestaurantInfo, fetchedShopId, selectedShopId]);
 
     useEffect(() => {
+        log.info('Running fetchTableOrderHistory() hook');
         if (tableNumber) {
+            log.info('Calling fetchTableOrderHistory() in respective hook');
             fetchTableOrderHistory();
+        } else {
+            log.info('Not doing anything in fetchTableOrderHistory() hook');
         }
     }, [fetchTableOrderHistory, tableNumber]);
 

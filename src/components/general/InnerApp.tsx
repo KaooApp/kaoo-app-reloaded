@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 import moment from 'moment';
 
-import rootLogging from '@/utils/root-logging';
+import rootLogging, { setPushMessageFunction } from '@/utils/root-logging';
 import {
     darkTheme,
     lightTheme,
@@ -25,6 +25,7 @@ import {
 
 import ProductItemDetails from '@/components/order/ProductItemDetails';
 import NavigationStack from '@/navigation/NavigationStack';
+import { appendLog } from '@/slices/logging';
 import { setLanguage } from '@/slices/settings';
 import { useAppDispatch, useAppSelector } from '@/store';
 import type { SupportedLanguage } from '@/translations';
@@ -43,6 +44,7 @@ const InnerApp: FC = () => {
     const { i18n } = useTranslation();
     const dispatch = useAppDispatch();
     const colorScheme = useColorScheme();
+    const debuggingEnabled = useAppSelector(state => state.settings.debugging);
 
     const colorSchemeSetting = useAppSelector(
         state => state.settings.colorScheme,
@@ -140,6 +142,14 @@ const InnerApp: FC = () => {
     /* useEffect(() => {
         log.info('react-native-config', JSON.stringify(Config, null, 4));
     }, []); */
+
+    useEffect(() => {
+        setPushMessageFunction(props => {
+            if (debuggingEnabled) {
+                dispatch(appendLog(props));
+            }
+        });
+    }, [dispatch, debuggingEnabled]);
 
     const navigationRef = useNavigationContainerRef();
 

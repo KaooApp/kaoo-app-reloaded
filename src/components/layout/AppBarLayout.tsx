@@ -4,8 +4,6 @@ import { Appbar } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { FC, PropsWithChildren } from 'react';
 
-import rootLogging from '@/utils/root-logging';
-
 import { useNavigation, usePreventRemove } from '@react-navigation/native';
 
 export interface AppBarLayoutProps extends PropsWithChildren {
@@ -23,8 +21,6 @@ export interface AppBarLayoutProps extends PropsWithChildren {
 }
 
 export { modeAppbarHeight } from 'react-native-paper/src/components/Appbar/utils';
-
-const log = rootLogging.extend('AppBarLayout');
 
 const AppBarLayout: FC<AppBarLayoutProps> = ({
     children,
@@ -44,10 +40,6 @@ const AppBarLayout: FC<AppBarLayoutProps> = ({
         default: false,
         ios: true,
     });
-
-    if (__DEV__) {
-        log.info('Rerender AppBarLayout');
-    }
 
     const backEnabled =
         (back === true && navigation.canGoBack()) || typeof back === 'function';
