@@ -14,6 +14,7 @@ import {
 } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import packageJson from 'package.json';
 import { useDebounce } from 'use-debounce';
@@ -39,6 +40,7 @@ const SettingsScreen: FC = () => {
     const dispatch = useAppDispatch();
     const theme = useTheme();
     const navigation = useNavigation();
+    const { t } = useTranslation();
 
     const debuggingEnabled = useAppSelector(state => state.settings.debugging);
     const [presses, setPresses] = useState<number | null>(
@@ -89,9 +91,9 @@ const SettingsScreen: FC = () => {
     }, [debuggingEnabled, dispatch, presses]);
 
     return (
-        <AppBarLayout title="Settings" back>
+        <AppBarLayout title={t('views.settingsScreen.title')} back>
             <ScrollView>
-                <SettingsSection title="Theme">
+                <SettingsSection title={t('views.settingsScreen.theme')}>
                     <SettingsItem title={false}>
                         {Object.values(AppColorScheme).map(
                             (scheme, index, { length }) => (
@@ -116,7 +118,9 @@ const SettingsScreen: FC = () => {
                                             }}
                                         >
                                             <Text variant="bodyLarge">
-                                                {scheme}
+                                                {t(
+                                                    `views.settingsScreen.themeValue.${scheme}`,
+                                                )}
                                             </Text>
                                             <RadioButton
                                                 value="light"
@@ -135,16 +139,16 @@ const SettingsScreen: FC = () => {
                         )}
                     </SettingsItem>
                 </SettingsSection>
-                <SettingsSection title="Session">
+                <SettingsSection title={t('views.settingsScreen.session')}>
                     <SettingsItem
-                        title="Set person count"
+                        title={t('views.settingsScreen.setPersonCount')}
                         onPress={() => setPersonModalOpen(true)}
                     >
                         <Icon source="chevron-right" size={24} />
                     </SettingsItem>
                     <SettingsItem
-                        title="Manage session"
-                        subtitle="Hint: This will not save anything from the current session"
+                        title={t('views.settingsScreen.manageSession')}
+                        subtitle={t('views.settingsScreen.endSessionHint')}
                         color={theme.colors.error}
                     >
                         <Button
@@ -156,16 +160,16 @@ const SettingsScreen: FC = () => {
                             textColor={theme.colors.onErrorContainer}
                             disabled={!hasActiveSession}
                         >
-                            End session
+                            {t('views.settingsScreen.endSession')}
                         </Button>
                     </SettingsItem>
                 </SettingsSection>
-                <SettingsSection title="Restaurant">
+                <SettingsSection title={t('views.settingsScreen.restaurant')}>
                     <SettingsItem title={false}>
                         <Box p={12}>
                             <Box mb={8}>
                                 <TextInput
-                                    label="Shop ID"
+                                    label={t('views.settingsScreen.shopId')}
                                     style={{
                                         borderTopLeftRadius: 12,
                                         borderTopRightRadius: 12,
@@ -177,26 +181,33 @@ const SettingsScreen: FC = () => {
                             </Box>
                             {hasActiveSession ? (
                                 <Text variant="labelSmall">
-                                    Hint: This cannot be changed during an
-                                    active session
+                                    {t(
+                                        'views.settingsScreen.activeSessionHint',
+                                    )}
                                 </Text>
                             ) : null}
                         </Box>
                     </SettingsItem>
                 </SettingsSection>
                 {debuggingEnabled ? (
-                    <SettingsSection title="Debugging">
-                        <SettingsItem title="Debug screen">
+                    <SettingsSection
+                        title={t('views.settingsScreen.debugging')}
+                    >
+                        <SettingsItem
+                            title={t('views.settingsScreen.debugScreen')}
+                        >
                             <Button
                                 onPress={() => {
                                     navigation.navigate('DebugScreen');
                                 }}
                                 mode="contained-tonal"
                             >
-                                Open
+                                {t('generic.open')}
                             </Button>
                         </SettingsItem>
-                        <SettingsItem title="Disable debugging">
+                        <SettingsItem
+                            title={t('views.settingsScreen.disableDebugging')}
+                        >
                             <Button
                                 onPress={() => {
                                     dispatch(disableDebugging());
@@ -206,7 +217,7 @@ const SettingsScreen: FC = () => {
                                 buttonColor={theme.colors.error}
                                 textColor={theme.colors.onError}
                             >
-                                Disable
+                                {t('generic.disable')}
                             </Button>
                         </SettingsItem>
                     </SettingsSection>
@@ -229,7 +240,9 @@ const SettingsScreen: FC = () => {
                         });
                     }}
                 >
-                    App Version {packageJson.version}
+                    {t('views.settingsScreen.appVersion', {
+                        version: packageJson.version,
+                    })}
                 </Text>
             </Flex>
             <PersonModal

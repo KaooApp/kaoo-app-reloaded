@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import { Flex } from 'react-native-flex-layout';
 import { Button, Text, TextInput } from 'react-native-paper';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { TableNumber } from '@/types/restaurant';
 
@@ -16,6 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 const ManuallyEnterTableScreen: FC = () => {
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
+    const { t } = useTranslation();
 
     const [tableNumber, setTableNumber] = useState<TableNumber>(
         '' as TableNumber,
@@ -31,12 +33,14 @@ const ManuallyEnterTableScreen: FC = () => {
     }, [tableNumber, dispatch, navigation]);
 
     return (
-        <AppBarLayout back title="Manually enter table number">
+        <AppBarLayout back title={t('views.manuallyEnterTableScreen.title')}>
             <FlexWithMargin fill center p={32} gap={32}>
-                <Text variant="headlineMedium">Enter table number</Text>
+                <Text variant="headlineMedium">
+                    {t('views.manuallyEnterTableScreen.enterTableNumber')}
+                </Text>
                 <Flex inline wrap>
                     <TextInput
-                        label="Table"
+                        label={t('views.manuallyEnterTableScreen.table')}
                         value={tableNumber}
                         onChangeText={text =>
                             setTableNumber(text as TableNumber)
@@ -53,7 +57,7 @@ const ManuallyEnterTableScreen: FC = () => {
                         style={{ width: '100%' }}
                         onPress={handleContinue}
                     >
-                        Continue
+                        {t('generic.continue')}
                     </Button>
                 </Flex>
             </FlexWithMargin>

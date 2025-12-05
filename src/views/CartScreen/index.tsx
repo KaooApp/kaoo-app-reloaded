@@ -5,6 +5,7 @@ import { Flex } from 'react-native-flex-layout';
 import { Button, Icon, Text } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { OrderItemId } from '@/types/order-items';
 
@@ -22,6 +23,7 @@ const SHOW_DEV_BUTTON = false;
 const CartScreen: FC = () => {
     const [loading, setLoading] = useState<boolean>();
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
     const cart = useAppSelector(
         state => state.persisted.currentSession?.shoppingCart,
@@ -32,7 +34,7 @@ const CartScreen: FC = () => {
         [cart],
     );
 
-    const informations = useAppSelector(state => ({
+    const information = useAppSelector(state => ({
         shopId: state.persisted.currentSession?.restaurantId,
         personCount: state.persisted.personCount,
         tableNumber: state.persisted.currentSession?.tableNumber,
@@ -45,12 +47,12 @@ const CartScreen: FC = () => {
             return;
         }
 
-        const { shopId, personCount, tableNumber } = informations;
+        const { shopId, personCount, tableNumber } = information;
 
         if (!shopId || !personCount || !tableNumber || !cart) {
             Toast.show({
-                text1: 'Error during checkout creation',
-                text2: 'Missing informations',
+                text1: t('views.cartScreen.checkoutCreationError'),
+                text2: t('generic.missingInformation'),
                 type: 'error',
             });
             return;
@@ -65,19 +67,18 @@ const CartScreen: FC = () => {
             tableNumber,
         });
         const result = await sendOrder(order);
-        console.log('order result', result);
 
         if (result) {
             Toast.show({
-                text1: 'Order placed',
+                text1: t('views.cartScreen.orderPlaced'),
                 text2: result.msg,
                 type: 'success',
             });
             dispatch(addCartToSession({ cart }));
         } else {
             Toast.show({
-                text1: 'Order failed',
-                text2: 'Please try again later',
+                text1: t('views.cartScreen.orderFailed'),
+                text2: t('generic.pleaseTryAgainLater'),
                 type: 'error',
             });
         }
@@ -85,7 +86,7 @@ const CartScreen: FC = () => {
         dispatch(clearCartAction());
 
         setLoading(false);
-    }, [cart, dispatch, informations, loading]);
+    }, [cart, dispatch, information, loading, t]);
 
     const devAddCartToSession = (): void => {
         if (cart) {
@@ -94,7 +95,7 @@ const CartScreen: FC = () => {
     };
 
     return (
-        <AppBarLayout title="Cart" settings hasTabs>
+        <AppBarLayout title={t('views.cartScreen.title')} settings hasTabs>
             <Flex fill style={{ gap: 16 }} mb={16}>
                 {itemsInCart ? (
                     <Flex fill style={{ alignSelf: 'stretch' }}>
@@ -108,7 +109,9 @@ const CartScreen: FC = () => {
                 ) : (
                     <Flex fill center style={{ gap: 8 }}>
                         <Icon source="cart-outline" size={48} />
-                        <Text variant="headlineMedium">No items in cart</Text>
+                        <Text variant="headlineMedium">
+                            {t('views.cartScreen.noItems')}
+                        </Text>
                     </Flex>
                 )}
                 <Flex ph={12} style={{ alignSelf: 'stretch' }}>
@@ -119,7 +122,9 @@ const CartScreen: FC = () => {
                         loading={loading}
                         disabled={!itemsInCart || SHOW_DEV_BUTTON}
                     >
-                        Checkout {itemsInCart} items
+                        {t('views.cartScreen.checkoutNItems', {
+                            count: itemsInCart,
+                        })}
                     </Button>
                     {SHOW_DEV_BUTTON ? (
                         <Button

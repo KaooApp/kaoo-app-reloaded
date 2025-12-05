@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Flex } from 'react-native-flex-layout';
 import { ActivityIndicator, Icon, Text, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
     generateHistorySectionListData,
@@ -19,6 +20,7 @@ import { useAppSelector } from '@/store';
 
 const OrderHistoryScreen: FC = () => {
     const theme = useTheme();
+    const { t } = useTranslation();
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
 
@@ -60,7 +62,9 @@ const OrderHistoryScreen: FC = () => {
 
     return (
         <AppBarLayout
-            title={`Order history of ${tableNumber ?? 'unknown'}`}
+            title={t('views.orderHistoryScreen.title', {
+                table: tableNumber ?? t('generic.unknown'),
+            })}
             settings
             hasTabs
             action={
@@ -75,12 +79,16 @@ const OrderHistoryScreen: FC = () => {
             {refreshing ? (
                 <Flex fill center style={{ gap: 8 }}>
                     <ActivityIndicator size="large" />
-                    <Text variant="headlineMedium">Fetching history...</Text>
+                    <Text variant="headlineMedium">
+                        {t('views.orderHistoryScreen.fetchingHistory')}
+                    </Text>
                 </Flex>
             ) : !sections?.length ? (
                 <Flex fill center style={{ gap: 8 }}>
                     <Icon source="close" size={48} />
-                    <Text variant="headlineMedium">No history found</Text>
+                    <Text variant="headlineMedium">
+                        {t('views.orderHistoryScreen.noHistoryFound')}
+                    </Text>
                 </Flex>
             ) : (
                 <SectionList

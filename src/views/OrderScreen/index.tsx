@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { Text, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Fuse from 'fuse.js';
 
@@ -19,6 +20,7 @@ import { useAppDispatch, useAppSelector } from '@/store';
 const OrderScreen: FC = () => {
     const dispatch = useAppDispatch();
     const theme = useTheme();
+    const { t } = useTranslation();
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const { fetchOrderItems } = useApi();
@@ -85,7 +87,7 @@ const OrderScreen: FC = () => {
 
     return (
         <AppBarLayout
-            title={`Order to Table ${tableNumber}`}
+            title={t('views.orderScreen.title', { table: tableNumber })}
             settings
             hasTabs
             action={{

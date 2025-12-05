@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { Flex } from 'react-native-flex-layout';
 import { Button, Icon, ProgressBar, Text } from 'react-native-paper';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { OrderedItem, OrderedItemUuid } from '@/types/restaurant';
 
@@ -17,6 +18,7 @@ import { useAppDispatch, useAppSelector } from '@/store';
 
 const OrderStatusScreen: FC = () => {
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
     const orderedItems = useAppSelector(
         state => state.persisted.currentSession?.orderedItems ?? [],
@@ -34,7 +36,11 @@ const OrderStatusScreen: FC = () => {
     };
 
     return (
-        <AppBarLayout title="Status" settings hasTabs>
+        <AppBarLayout
+            title={t('views.orderStatusScreen.title')}
+            settings
+            hasTabs
+        >
             <Flex fill style={{ gap: 16 }} mb={16}>
                 {formattedOrderedItems.length ? (
                     <Flex fill style={{ alignSelf: 'stretch' }}>
@@ -49,7 +55,7 @@ const OrderStatusScreen: FC = () => {
                     <Flex fill center style={{ gap: 8 }}>
                         <Icon source="close" size={48} />
                         <Text variant="headlineMedium">
-                            No items ordered yet
+                            {t('views.orderStatusScreen.noItems')}
                         </Text>
                     </Flex>
                 )}
@@ -77,7 +83,7 @@ const OrderStatusScreen: FC = () => {
                                 disabled={orderProgress.progress !== 1}
                                 onPress={handleFinishOrdering}
                             >
-                                Finish ordering
+                                {t('views.orderStatusScreen.finish')}
                             </Button>
                         </Flex>
                     </Flex>

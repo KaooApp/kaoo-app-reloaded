@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { BottomNavigation, Icon, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import useItemCountInCart from '@/hooks/use-item-count-in-cart';
 
@@ -23,6 +24,7 @@ const USE_PAPER_NAVIGATION = true;
 const NavigationTabs: FC<PropsWithNavigation> = ({ navigation: nav }) => {
     const theme = useTheme();
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
     const itemsInCart = useItemCountInCart();
 
@@ -109,7 +111,7 @@ const NavigationTabs: FC<PropsWithNavigation> = ({ navigation: nav }) => {
                     name="OrderScreen"
                     component={OrderScreen}
                     options={{
-                        tabBarLabel: 'Order',
+                        tabBarLabel: t('navigation.orderScreen'),
                         tabBarIcon: ({ color, size }) => (
                             <Icon source="food" size={size} color={color} />
                         ),
@@ -120,8 +122,10 @@ const NavigationTabs: FC<PropsWithNavigation> = ({ navigation: nav }) => {
                     component={CartScreen}
                     options={{
                         tabBarLabel: itemsInCart
-                            ? `Cart (${itemsInCart})`
-                            : 'Cart',
+                            ? t('navigation.cartScreenWithItems', {
+                                  count: itemsInCart,
+                              })
+                            : t('navigation.cartScreen'),
                         tabBarIcon: ({ color, size }) => (
                             <Icon source="cart" size={size} color={color} />
                         ),
@@ -131,7 +135,7 @@ const NavigationTabs: FC<PropsWithNavigation> = ({ navigation: nav }) => {
                     name="OrderStatusScreen"
                     component={OrderStatusScreen}
                     options={{
-                        tabBarLabel: 'Status',
+                        tabBarLabel: t('navigation.orderStatusScreen'),
                         tabBarIcon: ({ color, size }) => (
                             <Icon
                                 source="list-status"
@@ -145,7 +149,7 @@ const NavigationTabs: FC<PropsWithNavigation> = ({ navigation: nav }) => {
                     name="OrderHistoryScreen"
                     component={OrderHistoryScreen}
                     options={{
-                        tabBarLabel: 'History',
+                        tabBarLabel: t('navigation.orderHistoryScreen'),
                         tabBarIcon: ({ color, size }) => (
                             <Icon source="history" size={size} color={color} />
                         ),

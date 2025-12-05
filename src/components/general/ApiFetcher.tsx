@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect } from 'react';
 
 import Toast from 'react-native-toast-message';
 import type { FC, PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { OrderHistory } from '@/types/history';
 import type { RestaurantInfo } from '@/types/restaurant';
@@ -35,6 +36,7 @@ const log = rootLogging.extend('ApiFetcher');
 
 const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
     const selectedShopId = useAppSelector(
         state => state.persisted.selectedStore.id,
@@ -54,19 +56,23 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
             if (data === null) {
                 log.error('Failed to fetch restaurant info from ApiContext');
                 Toast.show({
-                    text1: 'Unable to fetch restaurant information',
+                    text1: t(
+                        'components.apiFetcher.restaurantInfo.unableToFetch',
+                    ),
                     type: 'error',
                 });
             } else {
                 dispatch(setStoreInformation({ info: data }));
                 Toast.show({
-                    text1: 'Successfully fetched restaurant info',
+                    text1: t(
+                        'components.apiFetcher.restaurantInfo.successfullyFetched',
+                    ),
                     type: 'success',
                 });
             }
 
             return data;
-        }, [dispatch, selectedShopId]);
+        }, [dispatch, selectedShopId, t]);
 
     const fetchOrderItems =
         useCallback(async (): Promise<FetchOrderItemsResponse | null> => {
@@ -76,7 +82,7 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
             if (data === null) {
                 log.error('Failed to fetch order items from ApiContext');
                 Toast.show({
-                    text1: 'Unable to fetch order items',
+                    text1: t('components.apiFetcher.orderItems.unableToFetch'),
                     type: 'error',
                 });
             } else {
@@ -84,7 +90,7 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
             }
 
             return data;
-        }, [dispatch, selectedShopId]);
+        }, [dispatch, selectedShopId, t]);
 
     const fetchTableOrderHistory =
         useCallback(async (): Promise<OrderHistory | null> => {
@@ -107,7 +113,9 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
             if (data === null) {
                 log.error('Failed to fetch table history from ApiContext');
                 Toast.show({
-                    text1: 'Unable to fetch table history',
+                    text1: t(
+                        'components.apiFetcher.orderHistory.unableToFetch',
+                    ),
                     type: 'error',
                 });
             } else {
@@ -115,7 +123,7 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
             }
 
             return data;
-        }, [dispatch, selectedShopId, tableNumber]);
+        }, [dispatch, selectedShopId, tableNumber, t]);
 
     useEffect(() => {
         log.info('Running selectStore() hook');

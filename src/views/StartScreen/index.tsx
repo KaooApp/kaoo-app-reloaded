@@ -2,6 +2,7 @@ import { Image } from 'react-native';
 
 import { Button, Text } from 'react-native-paper';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import AppBarLayout from '@/components/layout/AppBarLayout';
 import FlexWithMargin from '@/components/layout/FlexWithMargin';
@@ -13,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const StartScreen: FC = () => {
     const { navigate } = useNavigation();
+    const { t } = useTranslation();
 
     const hasRestaurantInfo = useAppSelector(
         state => state.persisted.selectedStore.info !== null,
@@ -30,9 +32,9 @@ const StartScreen: FC = () => {
                     icon="qrcode"
                     disabled={!hasRestaurantInfo}
                 >
-                    Scan QR code
+                    {t('views.startScreen.scanQrCode')}
                 </Button>
-                <Text>or</Text>
+                <Text>{t('generic.or')}</Text>
                 <Button
                     mode="outlined"
                     onPress={() => {
@@ -41,7 +43,7 @@ const StartScreen: FC = () => {
                     icon="keyboard"
                     disabled={!hasRestaurantInfo}
                 >
-                    Manually enter table
+                    {t('views.startScreen.manualTable')}
                 </Button>
             </FlexWithMargin>
         </AppBarLayout>

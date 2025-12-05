@@ -10,6 +10,7 @@ import {
 } from 'react-native-permissions';
 import Toast from 'react-native-toast-message';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { convertBarcodeToTableNumber } from '@/utils/helpers';
 import rootLogging from '@/utils/root-logging';
@@ -29,6 +30,7 @@ const log = rootLogging.extend('ScanTableQrCodeScreen');
 const ScanTableQrCodeScreen: FC = () => {
     const dispatch = useAppDispatch();
     const navigation = useNavigation();
+    const { t } = useTranslation();
 
     const [hasPermission, setHasPermission] = useState<boolean | null>(null);
     const [scanning, setScanning] = useState<boolean>(false);
@@ -72,12 +74,12 @@ const ScanTableQrCodeScreen: FC = () => {
                 navigation.navigate('StartSessionScreen');
             } else {
                 Toast.show({
-                    text1: 'Invalid table',
+                    text1: t('views.scanTableQrCodeScreen.invalidTable'),
                     type: 'error',
                 });
             }
         });
-    }, [scanning, dispatch, navigation]);
+    }, [scanning, dispatch, navigation, t]);
 
     const checkPermission = useCallback(async (): Promise<boolean> => {
         const granted = await BarcodeScanner.hasCameraPermission();
@@ -92,8 +94,8 @@ const ScanTableQrCodeScreen: FC = () => {
 
         if (granted) {
             Toast.show({
-                text1: 'Success',
-                text2: 'Camera permission granted!',
+                text1: t('generic.success'),
+                text2: t('views.scanTableQrCodeScreen.permissionGranted'),
                 type: 'success',
             });
             return true;
@@ -115,13 +117,13 @@ const ScanTableQrCodeScreen: FC = () => {
         }
 
         Toast.show({
-            text1: 'Permission Denied',
-            text2: 'Camera permission is required to scan QR codes',
+            text1: t('views.scanTableQrCodeScreen.permissionDenied'),
+            text2: t('views.scanTableQrCodeScreen.permissionInfo'),
             type: 'error',
         });
 
         return false;
-    }, []);
+    }, [t]);
 
     useFocusEffect(() => {
         if (scanning) {
@@ -158,7 +160,7 @@ const ScanTableQrCodeScreen: FC = () => {
             {hasPermission === null ? (
                 <FlexWithMargin fill center>
                     <Text variant="headlineMedium">
-                        Checking permissions...
+                        {t('views.scanTableQrCodeScreen.checkingPermissions')}
                     </Text>
                 </FlexWithMargin>
             ) : hasPermission ? (
@@ -173,7 +175,9 @@ const ScanTableQrCodeScreen: FC = () => {
                             icon={flashState ? 'flash-off' : 'flash'}
                             mode="contained-tonal"
                         >
-                            Turn flash {flashState ? 'off' : 'on'}
+                            {flashState
+                                ? t('views.scanTableQrCodeScreen.turnFlashOff')
+                                : t('views.scanTableQrCodeScreen.turnFlashOn')}
                         </Button>
                     </Flex>
                 </Flex>
@@ -183,11 +187,15 @@ const ScanTableQrCodeScreen: FC = () => {
                     <Flex center>
                         <Flex mb={8}>
                             <Text variant="headlineMedium">
-                                Camera permission required
+                                {t(
+                                    'views.scanTableQrCodeScreen.permissionRequired',
+                                )}
                             </Text>
                         </Flex>
                         <Text>
-                            It is not possible to scan without camera permission
+                            {t(
+                                'views.scanTableQrCodeScreen.permissionRequiredDescription',
+                            )}
                         </Text>
                     </Flex>
                     <Flex center style={{ gap: 8 }}>
@@ -197,16 +205,18 @@ const ScanTableQrCodeScreen: FC = () => {
                                 onPress={requestPermission}
                                 icon="lock-open"
                             >
-                                Grant permission to use camera
+                                {t(
+                                    'views.scanTableQrCodeScreen.grantPermission',
+                                )}
                             </Button>
                         </Flex>
-                        <Text>or</Text>
+                        <Text>{t('generic.or')}</Text>
                         <Button
                             mode="text"
                             onPress={goBack}
                             style={{ minWidth: 200 }}
                         >
-                            Go back
+                            {t('generic.goBack')}
                         </Button>
                     </Flex>
                 </FlexWithMargin>

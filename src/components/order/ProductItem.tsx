@@ -12,6 +12,7 @@ import {
     useTheme,
 } from 'react-native-paper';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { PreviousOrderItem } from '@/types/order-items';
 
@@ -32,6 +33,7 @@ export interface ProductItemProps {
 const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
     const theme = useTheme();
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
     const itemIsNew = useAppSelector(
         state =>
@@ -112,7 +114,7 @@ const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
                                         visible={itemIsNew}
                                         style={{ paddingHorizontal: 6 }}
                                     >
-                                        New
+                                        {t('generic.new')}
                                     </Badge>
                                     {isInCart ? (
                                         <Badge
@@ -124,7 +126,7 @@ const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
                                                 color: theme.colors.onPrimary,
                                             }}
                                         >
-                                            In cart
+                                            {t('generic.inCart')}
                                         </Badge>
                                     ) : null}
                                 </Flex>

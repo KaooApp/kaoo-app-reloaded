@@ -4,6 +4,7 @@ import { Box } from 'react-native-flex-layout';
 import { Searchbar } from 'react-native-paper';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useDebounce } from 'use-debounce';
 
@@ -12,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '@/store';
 
 const ProductSearch: FC = () => {
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
     const [searchString, setSearchString] = useState<string>('');
 
@@ -29,7 +31,7 @@ const ProductSearch: FC = () => {
         <Animated.View entering={FadeInUp.springify(150)}>
             <Box ph={12} mb={8}>
                 <Searchbar
-                    placeholder="Search..."
+                    placeholder={t('generic.search')}
                     onChangeText={search => {
                         setSearchString(search);
                     }}

@@ -4,6 +4,7 @@ import FastImage from 'react-native-fast-image';
 import { Flex } from 'react-native-flex-layout';
 import { Button, Text, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { getImageUrl } from '@/utils/api';
 
@@ -15,6 +16,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const StartSessionScreen: FC = () => {
     const navigation = useNavigation();
+    const { t } = useTranslation();
 
     const theme = useTheme();
     const [imageLoaded, setImageLoaded] = useState<boolean>(false);
@@ -44,8 +46,10 @@ const StartSessionScreen: FC = () => {
         <AppBarLayout
             title={
                 shopInfo?.shopname
-                    ? `Order at ${shopInfo.shopname}`
-                    : 'Want to start eating?'
+                    ? t('views.startSessionScreen.titleWithName', {
+                          name: shopInfo.shopname,
+                      })
+                    : t('views.startSessionScreen.title')
             }
             settings
         >
@@ -53,7 +57,10 @@ const StartSessionScreen: FC = () => {
                 {shopInfo && tableNumber ? (
                     <Flex center style={{ gap: 24 }}>
                         <Text variant="headlineLarge">
-                            {shopInfo.shopname} - Table {tableNumber}
+                            {t('views.startSessionScreen.shopWithTable', {
+                                name: shopInfo.shopname,
+                                table: tableNumber,
+                            })}
                         </Text>
                         <FastImage
                             style={{
@@ -76,11 +83,14 @@ const StartSessionScreen: FC = () => {
                                 navigation.navigate('OrderTabs');
                             }}
                         >
-                            Start eating!
+                            {t('views.startSessionScreen.startEating')}
                         </Button>
                     </Flex>
                 ) : (
-                    <Text>This is invalid</Text>
+                    <Text>
+                        Please go into the settings and screenshot everything.
+                        This is a bug!
+                    </Text>
                 )}
             </FlexWithMargin>
         </AppBarLayout>

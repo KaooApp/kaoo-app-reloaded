@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Flex } from 'react-native-flex-layout';
 import { Button, Dialog, Portal, TextInput } from 'react-native-paper';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { setPersonCount } from '@/slices/persisted';
 import { useAppDispatch, useAppSelector } from '@/store';
@@ -14,6 +15,7 @@ export interface PersonModalProps {
 
 const PersonModal: FC<PersonModalProps> = ({ open, onClose }) => {
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
     const personCount = useAppSelector(state => state.persisted.personCount);
 
@@ -49,11 +51,11 @@ const PersonModal: FC<PersonModalProps> = ({ open, onClose }) => {
     return (
         <Portal>
             <Dialog visible={open} onDismiss={onClose}>
-                <Dialog.Title>Please set the number of people</Dialog.Title>
+                <Dialog.Title>{t('components.personModal.title')}</Dialog.Title>
                 <Dialog.Content>
                     <Flex style={{ gap: 8 }}>
                         <TextInput
-                            label="Adults"
+                            label={t('components.personModal.adults')}
                             style={{
                                 borderTopLeftRadius: 12,
                                 borderTopRightRadius: 12,
@@ -74,7 +76,7 @@ const PersonModal: FC<PersonModalProps> = ({ open, onClose }) => {
                             keyboardType="numeric"
                         />
                         <TextInput
-                            label="Children"
+                            label={t('components.personModal.children')}
                             style={{
                                 borderTopLeftRadius: 12,
                                 borderTopRightRadius: 12,
@@ -97,7 +99,9 @@ const PersonModal: FC<PersonModalProps> = ({ open, onClose }) => {
                     </Flex>
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button onPress={handleConfirm}>Confirm</Button>
+                    <Button onPress={handleConfirm}>
+                        {t('generic.confirm')}
+                    </Button>
                 </Dialog.Actions>
             </Dialog>
         </Portal>
