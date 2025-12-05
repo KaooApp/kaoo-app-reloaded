@@ -40,7 +40,6 @@ const SettingsItem: FC<SettingsItemProps> = ({
             <Surface
                 style={{
                     marginVertical: 4,
-                    minHeight: 48,
                     borderRadius: 16,
                     backgroundColor: theme.colors.background,
                 }}

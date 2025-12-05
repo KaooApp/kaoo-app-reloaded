@@ -13,8 +13,6 @@ import Toast, {
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import moment from 'moment';
-
 import rootLogging, { setPushMessageFunction } from '@/utils/root-logging';
 import {
     darkTheme,
@@ -119,24 +117,6 @@ const InnerApp: FC = () => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setI18nLanguageMatchesSettings(false);
         i18n.changeLanguage(language);
-
-        let momentLocale: string;
-
-        switch (language) {
-            case 'en':
-                momentLocale = 'en-gb';
-                break;
-            default:
-                momentLocale = language;
-                break;
-        }
-
-        if (moment.locales().includes(momentLocale)) {
-            moment.locale(momentLocale);
-        } else {
-            log.error(`moment locale "${momentLocale}" not available`);
-            moment.locale('en-gb');
-        }
     }, [i18n, language]);
 
     /* useEffect(() => {

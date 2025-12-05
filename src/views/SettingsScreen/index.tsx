@@ -31,8 +31,11 @@ import {
     disableDebugging,
     enableDebugging,
     setColorScheme,
+    setLanguage,
 } from '@/slices/settings';
 import { useAppDispatch, useAppSelector } from '@/store';
+import type { SupportedLanguage } from '@/translations';
+import { supportedLanguages } from '@/translations';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -58,6 +61,10 @@ const SettingsScreen: FC = () => {
 
     const setAppScheme = (scheme: AppColorScheme): void => {
         dispatch(setColorScheme({ scheme }));
+    };
+
+    const setAppLanguage = (language: SupportedLanguage): void => {
+        dispatch(setLanguage({ language }));
     };
 
     const [shopIdText, setShopIdText] = useState<string>(selectedRestaurantId);
@@ -97,13 +104,24 @@ const SettingsScreen: FC = () => {
                     <SettingsItem title={false}>
                         {Object.values(AppColorScheme).map(
                             (scheme, index, { length }) => (
-                                <View key={scheme}>
+                                <View key={`scheme-${scheme}`}>
                                     <TouchableRipple
                                         onPress={() => setAppScheme(scheme)}
                                         borderless
                                         style={{
-                                            borderTopRightRadius: 16,
-                                            borderTopLeftRadius: 16,
+                                            ...(index === 0
+                                                ? {
+                                                      borderTopRightRadius: 16,
+                                                      borderTopLeftRadius: 16,
+                                                  }
+                                                : {}),
+                                            ...(index === length - 1 ||
+                                            length === 1
+                                                ? {
+                                                      borderBottomRightRadius: 16,
+                                                      borderBottomLeftRadius: 16,
+                                                  }
+                                                : {}),
                                         }}
                                     >
                                         <Flex
@@ -127,6 +145,63 @@ const SettingsScreen: FC = () => {
                                                 status={
                                                     settings.colorScheme ===
                                                     scheme
+                                                        ? 'checked'
+                                                        : 'unchecked'
+                                                }
+                                            />
+                                        </Flex>
+                                    </TouchableRipple>
+                                    {index < length - 1 ? <Divider /> : null}
+                                </View>
+                            ),
+                        )}
+                    </SettingsItem>
+                </SettingsSection>
+                <SettingsSection title={t('views.settingsScreen.language')}>
+                    <SettingsItem title={false}>
+                        {supportedLanguages.map(
+                            (language, index, { length }) => (
+                                <View key={`language-${language}`}>
+                                    <TouchableRipple
+                                        onPress={() => setAppLanguage(language)}
+                                        borderless
+                                        style={{
+                                            ...(index === 0
+                                                ? {
+                                                      borderTopRightRadius: 16,
+                                                      borderTopLeftRadius: 16,
+                                                  }
+                                                : {}),
+                                            ...(index === length - 1 ||
+                                            length === 1
+                                                ? {
+                                                      borderBottomRightRadius: 16,
+                                                      borderBottomLeftRadius: 16,
+                                                  }
+                                                : {}),
+                                        }}
+                                    >
+                                        <Flex
+                                            fill
+                                            inline
+                                            items="center"
+                                            justify="between"
+                                            style={{
+                                                gap: 8,
+                                                paddingHorizontal: 12,
+                                                paddingVertical: 4,
+                                            }}
+                                        >
+                                            <Text variant="bodyLarge">
+                                                {t(`language`, {
+                                                    language,
+                                                })}
+                                            </Text>
+                                            <RadioButton
+                                                value="light"
+                                                status={
+                                                    settings.language ===
+                                                    language
                                                         ? 'checked'
                                                         : 'unchecked'
                                                 }
