@@ -1,10 +1,8 @@
 import { Image } from 'react-native';
-import { useEffect } from 'react';
 
 import { Button, Text } from 'react-native-paper';
 import type { FC } from 'react';
 
-import { useApi } from '@/components/general/ApiFetcher';
 import AppBarLayout from '@/components/layout/AppBarLayout';
 import FlexWithMargin from '@/components/layout/FlexWithMargin';
 import { useAppSelector } from '@/store';
