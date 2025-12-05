@@ -14,7 +14,7 @@
     "postinstall": "yarn npm-license-crawler -onlyDirectDependencies -json licenses.json && yarn patch-package && ./postinstall.sh",
     "postuninstall": "yarn npm-license-crawler -onlyDirectDependencies -json licenses.json",
     "build-android": "bash -c \"pushd android ; ./gradlew assembleRelease ; popd\"",
-    "postversion": "react-native-version --never-amend -L",
+    "postversion": "react-native-version --never-amend -L && ./postversion.sh",
     "prepare": "node-git-hooks",
     "clean:android": "bash -c \"pushd android ; ./gradlew clean ; popd\"",
     "translations:push": "bash -c \"pushd src/translations/translation-files ; git add . ; git commit -m 'Update translations' ; git push ; popd\"",
