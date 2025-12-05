@@ -61,7 +61,6 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
                 dispatch(setStoreInformation({ info: data }));
                 Toast.show({
                     text1: 'Successfully fetched restaurant info',
-                    text2: new Date().toString(),
                     type: 'success',
                 });
             }

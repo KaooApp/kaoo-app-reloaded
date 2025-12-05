@@ -5,6 +5,7 @@ import type { FC } from 'react';
 
 import AppBarLayout from '@/components/layout/AppBarLayout';
 import FlexWithMargin from '@/components/layout/FlexWithMargin';
+import { useAppSelector } from '@/store';
 
 import roll from '@assets/roll.png';
 
@@ -12,6 +13,10 @@ import { useNavigation } from '@react-navigation/native';
 
 const StartScreen: FC = () => {
     const { navigate } = useNavigation();
+
+    const hasRestaurantInfo = useAppSelector(
+        state => state.persisted.selectedStore.info !== null,
+    );
 
     return (
         <AppBarLayout settings>
@@ -23,6 +28,7 @@ const StartScreen: FC = () => {
                         navigate('ScanTableQrCodeScreen');
                     }}
                     icon="qrcode"
+                    disabled={!hasRestaurantInfo}
                 >
                     Scan QR code
                 </Button>
@@ -33,6 +39,7 @@ const StartScreen: FC = () => {
                         navigate('ManuallyEnterTableScreen');
                     }}
                     icon="keyboard"
+                    disabled={!hasRestaurantInfo}
                 >
                     Manually enter table
                 </Button>
