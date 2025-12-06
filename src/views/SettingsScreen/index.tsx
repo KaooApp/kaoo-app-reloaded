@@ -141,7 +141,10 @@ const SettingsScreen: FC = () => {
                                                 )}
                                             </Text>
                                             <RadioButton
-                                                value="light"
+                                                value={scheme}
+                                                onPress={() =>
+                                                    setAppScheme(scheme)
+                                                }
                                                 status={
                                                     settings.colorScheme ===
                                                     scheme
@@ -198,7 +201,10 @@ const SettingsScreen: FC = () => {
                                                 })}
                                             </Text>
                                             <RadioButton
-                                                value="light"
+                                                value={language}
+                                                onPress={() =>
+                                                    setAppLanguage(language)
+                                                }
                                                 status={
                                                     settings.language ===
                                                     language
