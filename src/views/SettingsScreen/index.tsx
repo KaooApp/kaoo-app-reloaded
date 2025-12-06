@@ -194,7 +194,7 @@ const SettingsScreen: FC = () => {
                                         >
                                             <Text variant="bodyLarge">
                                                 {t(`language`, {
-                                                    language,
+                                                    lng: language,
                                                 })}
                                             </Text>
                                             <RadioButton
