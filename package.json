@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5",
+    "@notifee/react-native": "^9.1.8",
     "@os-team/i18next-react-native-language-detector": "^1.1.6",
     "@pushpendersingh/react-native-scanner": "^3.0.0",
     "@react-native-community/hooks": "^100.1.0",

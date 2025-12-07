@@ -1,3 +1,4 @@
+import { Alert, AppState, Platform } from 'react-native';
 import { createContext, useCallback, useContext, useEffect } from 'react';
 
 import Toast from 'react-native-toast-message';
@@ -23,6 +24,13 @@ import {
     updateOrderItems,
 } from '@/slices/persisted';
 import { useAppDispatch, useAppSelector } from '@/store';
+
+import notifee, {
+    AndroidCategory,
+    AndroidImportance,
+    AndroidVisibility,
+    AuthorizationStatus,
+} from '@notifee/react-native';
 
 export interface ApiContext {
     fetchRestaurantInfo: () => ReturnType<typeof getRestaurantInfo>;
@@ -163,6 +171,70 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
             log.info('Not doing anything in fetchTableOrderHistory() hook');
         }
     }, [fetchTableOrderHistory, tableNumber]);
+
+    useEffect(() => {
+        const channelId = 'reminder';
+
+        const func = async (): Promise<void> => {
+            await notifee.createChannel({
+                id: channelId,
+                name: 'Reminder',
+                vibration: true,
+                vibrationPattern: [300, 500],
+                importance: AndroidImportance.HIGH,
+                bypassDnd: true,
+                visibility: AndroidVisibility.PUBLIC,
+            });
+
+            const settings = await notifee.getNotificationSettings();
+
+            if (
+                settings.authorizationStatus !== AuthorizationStatus.AUTHORIZED
+            ) {
+                if (Platform.OS === 'ios') {
+                    await notifee.requestPermission();
+                } else {
+                    Alert.alert(
+                        t('notifications.permissionsAlert.title'),
+                        t('notifications.permissionsAlert.message'),
+                    );
+                }
+            }
+        };
+
+        func();
+
+        if (!tableNumber) {
+            // Only display notifications in a session.
+            return () => {};
+        }
+
+        const subscription = AppState.addEventListener(
+            'change',
+            async nextAppState => {
+                await notifee.cancelDisplayedNotifications();
+
+                if (nextAppState !== 'active') {
+                    await notifee.displayNotification({
+                        title: t('notifications.reminderNotification.title'),
+                        body: t('notifications.reminderNotification.body'),
+                        android: {
+                            channelId,
+                            importance: AndroidImportance.HIGH,
+                            lightUpScreen: true,
+                            category: AndroidCategory.REMINDER,
+                            smallIcon: 'roll',
+                            vibrationPattern: [300, 500],
+                        },
+                    });
+                }
+            },
+        );
+
+        return () => {
+            subscription.remove();
+        };
+    }, [tableNumber, t]);
 
     return (
         <apiContext.Provider
