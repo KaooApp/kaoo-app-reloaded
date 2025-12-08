@@ -164,12 +164,28 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
 
     useEffect(() => {
         log.info('Running fetchTableOrderHistory() hook');
-        if (tableNumber) {
+
+        const func = async (): Promise<void> => {
             log.info('Calling fetchTableOrderHistory() in respective hook');
             fetchTableOrderHistory();
+        };
+
+        let interval: number | null = null;
+
+        if (tableNumber) {
+            func();
+            interval = setInterval(() => {
+                func();
+            }, 1000 * 60);
         } else {
             log.info('Not doing anything in fetchTableOrderHistory() hook');
         }
+
+        return () => {
+            if (interval !== null) {
+                clearInterval(interval);
+            }
+        };
     }, [fetchTableOrderHistory, tableNumber]);
 
     useEffect(() => {
@@ -225,6 +241,9 @@ const ApiFetcher: FC<PropsWithChildren> = ({ children }) => {
                             category: AndroidCategory.REMINDER,
                             smallIcon: 'roll',
                             vibrationPattern: [300, 500],
+                            pressAction: {
+                                id: 'default',
+                            },
                         },
                     });
                 }

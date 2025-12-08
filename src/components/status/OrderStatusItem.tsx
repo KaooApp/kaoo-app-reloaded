@@ -53,10 +53,10 @@ const OrderStatusItem: FC<OrderStatusItemProps> = ({ data, uuid }) => {
                         fill
                         inline
                         items="center"
-                        justify="start"
-                        style={{ gap: 16 }}
+                        justify="between"
+                        style={{ gap: 8 }}
                     >
-                        <Box>
+                        <Flex fill inline items="center" style={{ gap: 16 }}>
                             <FastImage
                                 source={{ uri: getImageUrl(itemData.img) }}
                                 style={{
@@ -65,20 +65,14 @@ const OrderStatusItem: FC<OrderStatusItemProps> = ({ data, uuid }) => {
                                     borderRadius: 8,
                                 }}
                             />
-                        </Box>
-                        <Flex>
-                            <Text variant="titleMedium">
-                                {itemData.product_id}.{' '}
-                                {fixItemName(itemData.name)}
-                            </Text>
-                            <Text
-                                variant="bodySmall"
-                                style={{ color: theme.colors.primary }}
-                            >
-                                {uuid}
-                            </Text>
+                            <Flex fill>
+                                <Text variant="titleMedium">
+                                    {itemData.product_id}.{' '}
+                                    {fixItemName(itemData.name)}
+                                </Text>
+                            </Flex>
                         </Flex>
-                        <Flex fill inline justify="end" items="center">
+                        <Flex items="center">
                             <Checkbox
                                 status={isReceived ? 'checked' : 'unchecked'}
                                 onPress={handleToggleReceived}

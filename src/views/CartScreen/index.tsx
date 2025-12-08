@@ -14,6 +14,7 @@ import useItemCountInCart from '@/hooks/use-item-count-in-cart';
 import { prepareOrder, sendOrder } from '@/utils/api';
 
 import CartItem from '@/components/cart/CartItem';
+import { useApi } from '@/components/general/ApiFetcher';
 import AppBarLayout from '@/components/layout/AppBarLayout';
 import { addCartToSession, clearCartAction } from '@/slices/persisted';
 import { useAppDispatch, useAppSelector } from '@/store';
@@ -24,6 +25,7 @@ const CartScreen: FC = () => {
     const [loading, setLoading] = useState<boolean>();
     const dispatch = useAppDispatch();
     const { t } = useTranslation();
+    const { fetchTableOrderHistory } = useApi();
 
     const cart = useAppSelector(
         state => state.persisted.currentSession?.shoppingCart,
@@ -85,8 +87,10 @@ const CartScreen: FC = () => {
 
         dispatch(clearCartAction());
 
+        await fetchTableOrderHistory();
+
         setLoading(false);
-    }, [cart, dispatch, information, loading, t]);
+    }, [cart, dispatch, information, loading, t, fetchTableOrderHistory]);
 
     const devAddCartToSession = (): void => {
         if (cart) {
