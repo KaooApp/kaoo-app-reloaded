@@ -29,7 +29,7 @@ const OrderStatusScreen: FC = () => {
         [orderedItems],
     );
 
-    const orderProgress = useOrderProgress();
+    const [progress, count, size] = useOrderProgress() || [];
 
     const handleFinishOrdering = (): void => {
         dispatch(endRestaurantSession());
@@ -59,28 +59,28 @@ const OrderStatusScreen: FC = () => {
                         </Text>
                     </Flex>
                 )}
-                {orderProgress ? (
+                {typeof progress !== 'undefined' ? (
                     <Flex style={{ alignSelf: 'stretch', gap: 8 }} ph={12}>
                         <Flex inline center style={{ gap: 8 }}>
                             <Flex fill>
                                 <ProgressBar
-                                    progress={orderProgress.progress ?? 0}
+                                    progress={progress ?? 0}
                                     style={{ borderRadius: 4 }}
                                     color={
-                                        orderProgress.progress === 1
+                                        progress === 1
                                             ? successColor
                                             : undefined
                                     }
                                 />
                             </Flex>
                             <Text>
-                                {orderProgress.received} / {orderProgress.size}
+                                {count} / {size}
                             </Text>
                         </Flex>
                         <Flex>
                             <Button
                                 mode="contained-tonal"
-                                disabled={orderProgress.progress !== 1}
+                                disabled={progress !== 1}
                                 onPress={handleFinishOrdering}
                             >
                                 {t('views.orderStatusScreen.finish')}

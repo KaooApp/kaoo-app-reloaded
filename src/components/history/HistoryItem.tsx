@@ -29,8 +29,8 @@ const HistoryItem: FC<HistoryItemProps> = ({ data, currency }) => {
     const dispatch = useAppDispatch();
 
     const handleOnPress = useCallback(() => {
-        dispatch(setProductItemDetails({ productId: data.id }));
-    }, [dispatch, data.id]);
+        dispatch(setProductItemDetails({ productId: data.goodsid }));
+    }, [dispatch, data.goodsid]);
 
     const itemIsFree = useMemo(() => {
         const parsedCost = parseFloat(data.goodscost);

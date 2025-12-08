@@ -1,7 +1,7 @@
 import type { OrderItem, OrderItemId } from '@/types/order-items';
 
 export interface OrderHistoryItemDetails {
-    id: OrderItemId;
+    id: string;
     order_id: OrderHistoryItem['id'];
     goodsid: OrderItemId;
     img: string;

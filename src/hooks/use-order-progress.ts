@@ -1,13 +1,12 @@
 import { useAppSelector } from '@/store';
 
 /**
- * Returns a number between 0-1 or `null` if no session is started
+ * Returns a number between 0-1 or `null` if no session is started.
+ * Returns [progress, count, size]
+ *
+ * @return [number, number, number] | null
  */
-const useOrderProgress = (): {
-    progress: number;
-    size: number;
-    received: number;
-} | null =>
+const useOrderProgress = (): [number, number, number] | null =>
     useAppSelector(state => {
         if (!state.persisted.currentSession) {
             return null;
@@ -20,7 +19,7 @@ const useOrderProgress = (): {
         const size = items.length;
 
         if (size === 0) {
-            return { progress: 0, size: 0, received: 0 };
+            return [0, 0, 0];
         }
 
         const received = items.reduce((previousValue, currentValue) => {
@@ -31,7 +30,7 @@ const useOrderProgress = (): {
             return previousValue;
         }, 0);
 
-        return { progress: received / size, received, size };
+        return [received / size, received, size];
     });
 
 export default useOrderProgress;

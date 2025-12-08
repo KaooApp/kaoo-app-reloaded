@@ -1,12 +1,6 @@
 import FastImage from 'react-native-fast-image';
-import { Box, Flex } from 'react-native-flex-layout';
-import {
-    Checkbox,
-    Surface,
-    Text,
-    TouchableRipple,
-    useTheme,
-} from 'react-native-paper';
+import { Flex } from 'react-native-flex-layout';
+import { Checkbox, Surface, Text, TouchableRipple } from 'react-native-paper';
 import type { FC } from 'react';
 
 import type { OrderedItem, OrderedItemUuid } from '@/types/restaurant';
@@ -28,7 +22,6 @@ export interface OrderStatusItemProps {
 const OrderStatusItem: FC<OrderStatusItemProps> = ({ data, uuid }) => {
     const dispatch = useAppDispatch();
 
-    const theme = useTheme();
     const itemData = useOrderItem({ id: data.id });
 
     const isReceived = useIsItemReceived({ uuid });
