@@ -107,7 +107,7 @@
     "npm-license-crawler": "^0.2.1",
     "patch-package": "^8.0.1",
     "postinstall-postinstall": "^2.1.0",
-    "prettier": "^3.7.2",
+    "prettier": "^3.7.4",
     "react-native-version": "^4.0.0",
     "react-test-renderer": "19.1.1",
     "typescript": "^5.8.3",
