@@ -8321,7 +8321,7 @@ __metadata:
     postinstall-postinstall: "npm:^2.1.0"
     prettier: "npm:^3.7.2"
     react: "npm:19.1.1"
-    react-i18next: "npm:^16.3.5"
+    react-i18next: "npm:^16.5.0"
     react-native: "npm:0.82.1"
     react-native-bootsplash: "npm:^6.3.11"
     react-native-fast-image: "npm:^8.6.3"
@@ -10143,9 +10143,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^16.3.5":
-  version: 16.3.5
-  resolution: "react-i18next@npm:16.3.5"
+"react-i18next@npm:^16.5.0":
+  version: 16.5.0
+  resolution: "react-i18next@npm:16.5.0"
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
     html-parse-stringify: "npm:^3.0.1"
@@ -10161,7 +10161,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10/079c298d9ba4d89e91f1311939196bb495e8b76e16bdf6899d5fd10b26dd44ebb658d8b9871af7ef4f4234c7371560d8084e18438195a8bae934ee3117f17b0e
+  checksum: 10/1c0cebe33dece1ebe9683acf7437b013dd9c42837c2bfd862f1304f1704d5aba40051ed0c2b5989bcf096da828eacd9ca751a234b340dac1c2bbbeb285a40bda
   languageName: node
   linkType: hard
 
