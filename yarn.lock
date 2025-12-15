@@ -6991,9 +6991,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^25.6.3":
-  version: 25.6.3
-  resolution: "i18next@npm:25.6.3"
+"i18next@npm:^25.7.3":
+  version: 25.7.3
+  resolution: "i18next@npm:25.7.3"
   dependencies:
     "@babel/runtime": "npm:^7.28.4"
   peerDependencies:
@@ -7001,7 +7001,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/1fb376aa52ccc5e636068a4aec6876d5288c7ea9dda8ac49a05a48962110fccafd3f276476ca53c248eb04aaa92a92fdd507c6793b32298ae1b2538b84517285
+  checksum: 10/ec6601b22660b2f0d2d3996e7ef6dd2ff24f6f6e4bee121b33ecd3d36fe11018a01af9e66c01a93e8b42669ca9735f6c0888621c46bc1894872db3ba836815d8
   languageName: node
   linkType: hard
 
@@ -8310,7 +8310,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^7.0.1"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
     fuse.js: "npm:^7.1.0"
-    i18next: "npm:^25.6.3"
+    i18next: "npm:^25.7.3"
     icon-set-creator: "npm:^1.2.6"
     intl-pluralrules: "npm:^2.0.1"
     jest: "npm:^29.6.3"
