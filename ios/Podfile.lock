@@ -2477,7 +2477,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNBootSplash (6.3.11):
+  - RNBootSplash (7.0.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -3197,7 +3197,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 878add6c7d8ff8cea87697c44d29c03b79b6f2d9
   ReactCommon: 804dc80944fa90b86800b43c871742ec005ca424
   ReactNativeScanner: 3075b85cf5d587ce00709a1efa0f384dbb53ff64
-  RNBootSplash: 98a34471966945e8dacd1da8f0c2f87cbc2e2df7
+  RNBootSplash: 343fb3d5f8233c877ad11247dd883cd1f21733d7
   RNFastImage: 462a183c4b0b6b26fdfd639e1ed6ba37536c3b87
   RNGestureHandler: e1cf8ef3f11045536eed6bd4f132b003ef5f9a5f
   RNLocalize: ccce7d4abfbd268a9c47c9089ef6a8d587e9a1e6
