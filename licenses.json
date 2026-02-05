@@ -101,7 +101,7 @@
         "licenseUrl": "https://github.com/i18next/react-i18next/raw/master/LICENSE",
         "parents": "kaooappreloaded"
     },
-    "react-native-bootsplash@6.3.11": {
+    "react-native-bootsplash@7.0.1": {
         "licenses": "MIT",
         "repository": "https://github.com/zoontek/react-native-bootsplash",
         "licenseUrl": "https://github.com/zoontek/react-native-bootsplash/raw/master/LICENSE",
