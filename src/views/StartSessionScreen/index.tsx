@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { getImageUrl } from '@/utils/api';
 
+import { useApi } from '@/components/general/ApiFetcher';
 import AppBarLayout from '@/components/layout/AppBarLayout';
 import FlexWithMargin from '@/components/layout/FlexWithMargin';
 import { useAppSelector } from '@/store';
@@ -28,6 +29,8 @@ const StartSessionScreen: FC = () => {
     const tableNumber = useAppSelector(
         state => state.persisted.currentSession?.tableNumber,
     );
+
+    const { fetchOrderItems } = useApi();
 
     useFocusEffect(
         useCallback(() => {
@@ -79,7 +82,8 @@ const StartSessionScreen: FC = () => {
                             mode="contained-tonal"
                             contentStyle={{ height: 48, width: 200 }}
                             icon="food"
-                            onPress={() => {
+                            onPress={async () => {
+                                await fetchOrderItems();
                                 navigation.navigate('OrderTabs');
                             }}
                         >

@@ -1,5 +1,5 @@
 import { RefreshControl, SectionList, View } from 'react-native';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Text, useTheme } from 'react-native-paper';
 import type { FC } from 'react';
@@ -84,6 +84,14 @@ const OrderScreen: FC = () => {
         await fetchOrderItems();
         setRefreshing(false);
     }, [fetchOrderItems]);
+
+    useEffect(() => {
+        if (!refreshing && !products?.length) {
+            setTimeout(async () => {
+                await handleRefresh();
+            }, 1000);
+        }
+    }, [handleRefresh, products?.length, refreshing]);
 
     return (
         <AppBarLayout
