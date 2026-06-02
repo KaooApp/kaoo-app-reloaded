@@ -9007,7 +9007,7 @@ __metadata:
     react-native-fast-image: "npm:^8.6.3"
     react-native-flex-layout: "npm:^0.1.5"
     react-native-gesture-handler: "npm:^2.29.1"
-    react-native-localize: "npm:^3.6.0"
+    react-native-localize: "npm:^3.7.0"
     react-native-logs: "npm:^5.5.0"
     react-native-mmkv: "npm:~3.3.3"
     react-native-navigation-bar: "npm:^0.2.1"
@@ -10930,9 +10930,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-localize@npm:^3.6.0":
-  version: 3.6.0
-  resolution: "react-native-localize@npm:3.6.0"
+"react-native-localize@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "react-native-localize@npm:3.7.0"
   peerDependencies:
     "@expo/config-plugins": "*"
     react: "*"
@@ -10943,7 +10943,7 @@ __metadata:
       optional: true
     react-native-macos:
       optional: true
-  checksum: 10/1a443a77f3431ad638c577c1fc1b2f0b6234c61fd66dcf1ca095303b23dea47fb8bd0d40b18abc2917b874c9df75fe638c40bec6745fce995ad01ccef69d250e
+  checksum: 10/e8ec5e179a6f7ad277057d7594d4371bf93989cc0bbe97534b9a3f4c3554c9551edbb4d9e2b66e0c93f78dd8a45eb3f4b71ea715c8c925cbd6dcaa9eed739230
   languageName: node
   linkType: hard
 
