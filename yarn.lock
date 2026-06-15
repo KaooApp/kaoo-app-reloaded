@@ -1731,15 +1731,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@egjs/hammerjs@npm:^2.0.17":
-  version: 2.0.17
-  resolution: "@egjs/hammerjs@npm:2.0.17"
-  dependencies:
-    "@types/hammerjs": "npm:^2.0.36"
-  checksum: 10/f695129d45edfcfd6c5f2d1d36186da36ffade013991972ce23721a6b7ad7f214ce282abc4023e3f6b63062620852a63e897b523f247804afc7acd188fee9d9d
-  languageName: node
-  linkType: hard
-
 "@emnapi/core@npm:^1.4.3":
   version: 1.7.1
   resolution: "@emnapi/core@npm:1.7.1"
@@ -3742,13 +3733,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hammerjs@npm:^2.0.36":
-  version: 2.0.46
-  resolution: "@types/hammerjs@npm:2.0.46"
-  checksum: 10/1b6502d668f45ca49fb488c01f7938d3aa75e989d70c64801c8feded7d659ca1a118f745c1b604d220efe344c93231767d5cc68c05e00e069c14539b6143cfd9
-  languageName: node
-  linkType: hard
-
 "@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0, @types/istanbul-lib-coverage@npm:^2.0.1, @types/istanbul-lib-coverage@npm:^2.0.6":
   version: 2.0.6
   resolution: "@types/istanbul-lib-coverage@npm:2.0.6"
@@ -4221,13 +4205,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zoontek/react-native-navigation-bar@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@zoontek/react-native-navigation-bar@npm:1.0.1"
+"@zoontek/react-native-navigation-bar@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@zoontek/react-native-navigation-bar@npm:2.0.0"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10/17aca7d5b78c563c12116220a4598959d37ef72c3c029c9b3c50c592e61a128606563f60167bec6f726e2cfce005217032b2f4600cb10ef0aea97673da771e2c
+  checksum: 10/c3d256b40fc2cdccef0ba4fe24fdc40c0c55a8f66a6c6f4fc1b19b999e0fb1f7981a8aae6d9ed5c1ce7fec1c6b62101a90a72917003abecb313485653a271621
   languageName: node
   linkType: hard
 
@@ -8974,7 +8958,7 @@ __metadata:
     "@types/react": "npm:^19.1.1"
     "@types/react-test-renderer": "npm:^19.1.0"
     "@typescript-eslint/parser": "npm:^8.48.0"
-    "@zoontek/react-native-navigation-bar": "npm:^1.0.1"
+    "@zoontek/react-native-navigation-bar": "npm:^2.0.0"
     babel-plugin-module-resolver: "npm:^5.0.2"
     eslint: "npm:^9"
     eslint-config-airbnb-base: "npm:^15.0.0"
@@ -9006,7 +8990,7 @@ __metadata:
     react-native-bootsplash: "npm:^7.0.1"
     react-native-fast-image: "npm:^8.6.3"
     react-native-flex-layout: "npm:^0.1.5"
-    react-native-gesture-handler: "npm:^2.29.1"
+    react-native-gesture-handler: "npm:^3.0.1"
     react-native-localize: "npm:^3.6.0"
     react-native-logs: "npm:^5.5.0"
     react-native-mmkv: "npm:~3.3.3"
@@ -10906,17 +10890,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:^2.29.1":
-  version: 2.29.1
-  resolution: "react-native-gesture-handler@npm:2.29.1"
+"react-native-gesture-handler@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "react-native-gesture-handler@npm:3.0.1"
   dependencies:
-    "@egjs/hammerjs": "npm:^2.0.17"
-    hoist-non-react-statics: "npm:^3.3.0"
+    "@types/react-test-renderer": "npm:^19.1.0"
     invariant: "npm:^2.2.4"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10/349517d8e0b3ed5282bc3f8536945dee3439c9cfe773fe26f248a4ccb53049169d484371bb0612a081c3860eff492db7f4dcbac528ff9b5ff1d504d04eb06f5f
+  checksum: 10/ba02645c6c4ead6664fa3c9c8e4d239cf103cfd1c89aa8e88df03bce02472ac9dc190dcc73f53e9d9c74b35d3d961b058b5bf3d342919f138c51fa09e4e8978b
   languageName: node
   linkType: hard
 
