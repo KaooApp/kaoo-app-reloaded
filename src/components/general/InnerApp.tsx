@@ -35,6 +35,7 @@ import {
     useNavigationContainerRef,
 } from '@react-navigation/native';
 import { NavigationBar } from '@zoontek/react-native-navigation-bar';
+import setBarStyle = NavigationBar.setBarStyle;
 
 const log = rootLogging.extend('InnerApp');
 
@@ -130,6 +131,10 @@ const InnerApp: FC = () => {
             }
         });
     }, [dispatch, debuggingEnabled]);
+
+    useEffect(() => {
+        setBarStyle(enableDarkMode ? 'dark-content' : 'light-content');
+    }, [enableDarkMode]);
 
     const navigationRef = useNavigationContainerRef();
 

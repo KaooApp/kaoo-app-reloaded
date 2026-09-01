@@ -190,8 +190,7 @@ const persistedSlice = createSlice({
                                     product_id: item.product_id,
                                     cost: item.cost,
                                 }) as PreviousOrderItem,
-                        )
-                        .splice(0, 2),
+                        ),
                     lastUpdated: new Date(),
                 };
             } else {

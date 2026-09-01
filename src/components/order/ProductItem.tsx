@@ -38,7 +38,7 @@ const ProductItem: FC<ProductItemProps> = ({ data, currency }) => {
     const itemIsNew = useAppSelector(
         state =>
             typeof state.persisted.previousOrderItems?.items.find(
-                item => item.id === data.id,
+                item => item.id === data.id || item.name === data.name,
             ) !== 'undefined',
     );
 
